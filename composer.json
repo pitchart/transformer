@@ -1,0 +1,29 @@
+{
+    "name": "pitchart/transformer",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Julien VITTE",
+            "email": "vitte.julien@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^6.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pitchart\\Transformer\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Pitchart\\Transformer\\Tests\\": "tests/"
+        },
+        "files": [
+            "tests/tests_helpers.php"
+        ]
+    }
+}
