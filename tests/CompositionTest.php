@@ -15,8 +15,14 @@ class CompositionTest extends TestCase
 {
 
     public function test_composition_of_basic_functions() {
-        $composition = new Composition(plus_one(), square());
+        $adds_one_and_returns_square = new Composition(plus_one(), square());
 
-        $this->assertEquals(10, $composition(3));
+        $this->assertEquals(10, $adds_one_and_returns_square(3));
+    }
+
+    public function test_can_compose_itself() {
+        $adds_one_and_two_and_returns_square = new Composition(square(), new Composition(plus_two(), plus_one()));
+
+        $this->assertEquals(16, $adds_one_and_two_and_returns_square(1));
     }
 }
