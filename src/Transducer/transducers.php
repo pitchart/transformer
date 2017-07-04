@@ -2,6 +2,7 @@
 
 namespace Pitchart\Transformer\Transducer;
 
+use function Pitchart\Transformer\compose;
 use Pitchart\Transformer\Reducer;
 
 /**
@@ -66,6 +67,19 @@ function cat()
     };
 }
 
+/**
+ * @param callable $f
+ *
+ * @return \Pitchart\Transformer\Composition
+ */
+function mapcat(callable $callback)
+{
+    return compose(map($callback), cat());
+}
+
+/**
+ * @return \Closure
+ */
 function flatten()
 {
     return function (Reducer $reducer) {

@@ -55,6 +55,8 @@ class Transformer
 
     /**
      * @param callable $callable
+     *
+     * return static
      */
     public function map(callable $callable)
     {
@@ -94,6 +96,11 @@ class Transformer
     public function cat()
     {
         return new static($this->iterable, $this->composition->append(t\cat()), $this->termination, $this->initial);
+    }
+
+    public function mapcat(callable $callable)
+    {
+        return new static($this->iterable, $this->composition->append(t\mapcat($callable)), $this->termination, $this->initial);
     }
 
     public function flatten()

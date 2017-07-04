@@ -54,6 +54,15 @@ class TransformerTest extends TestCase
         self::assertEquals([0, 1, 2, 3, [4, 5], 6], $concatenated);
     }
 
+    public function test_can_map_items_of_a_list_and_concatenate_the_result()
+    {
+        $mapcat = (new Transformer([[0 ,1], [], [2, 3], [4, 5], [6]]))->mapcat(function ($item) {
+            return array_sum($item);
+        })->toArray();
+
+        self::assertEquals([1, 0, 5, 9, 6], $mapcat);
+    }
+
     public function test_can_compose_transformations()
     {
         $first = (new Transformer(range(1,6)))
