@@ -17,3 +17,15 @@ function square() {
         return pow($number, 2);
     };
 }
+
+function is_even() {
+    return function ($number) {
+        return $number % 2 == 0;
+    };
+}
+
+function is_greater_than_three() {
+    return function ($number) {
+        return $number > 3;
+    };
+}

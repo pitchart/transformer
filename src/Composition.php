@@ -14,16 +14,29 @@ class Composition
     /**
      * @var array
      */
-    private $functions;
+    private $functions = [];
 
     public function __construct(callable ...$functions)
     {
-        $this->functions = array_reverse($functions);
+        $this->functions = $functions;
     }
 
+    /**
+     * @param callable $callable
+     */
+    public function append(callable ...$callable)
+    {
+        $self = new self();
+        $self->functions = array_merge($this->functions, $callable);
+        return $self;
+    }
+
+    /**
+     * @return mixed
+     */
     public function __invoke()
     {
-        $functionList = $this->functions;
+        $functionList = array_reverse($this->functions);
         $first_function = array_shift($functionList);
 
         return array_reduce(
