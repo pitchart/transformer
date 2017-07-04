@@ -94,6 +94,13 @@ function take(int $number)
     };
 }
 
+function take_while(callable $callback)
+{
+    return function (Reducer $reducer) use ($callback) {
+        return new Reducer\TakeWhile($reducer, $callback);
+    };
+}
+
 // Terminations
 
 /**

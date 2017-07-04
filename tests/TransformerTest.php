@@ -72,6 +72,14 @@ class TransformerTest extends TestCase
         self::assertEquals([1,2,3], $extracted);
     }
 
+    public function test_can_extract_as_long_as_callback_is_valid()
+    {
+        $extracted = (new Transformer(range(1, 6)))
+            ->takeWhile(t\is_lower_than_four())->toArray();
+
+        self::assertEquals([1,2,3], $extracted);
+    }
+
     public function test_can_compose_transformations()
     {
         $first = (new Transformer(range(1,6)))

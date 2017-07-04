@@ -113,6 +113,11 @@ class Transformer
         return new static($this->iterable, $this->composition->append(t\take($number)), $this->termination, $this->initial);
     }
 
+    public function takeWhile(callable $callback)
+    {
+        return new static($this->iterable, $this->composition->append(t\take_while($callback)), $this->termination, $this->initial);
+    }
+
     /**
      * @return mixed
      */

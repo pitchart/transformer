@@ -31,3 +31,9 @@ function is_greater_than_three() {
         return $number > 3;
     };
 }
+
+function is_lower_than_four() {
+    return function ($number) {
+        return $number < 4;
+    };
+}
