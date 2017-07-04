@@ -96,6 +96,11 @@ class Transformer
         return new static($this->iterable, $this->composition->append(t\cat()), $this->termination, $this->initial);
     }
 
+    public function flatten()
+    {
+        return new static($this->iterable, $this->composition->append(t\flatten()), $this->termination, $this->initial);
+    }
+
     /**
      * @return mixed
      */

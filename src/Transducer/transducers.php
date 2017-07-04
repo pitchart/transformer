@@ -59,9 +59,17 @@ function first(callable $callback)
 /**
  * @return \Closure
  */
-function cat() {
+function cat()
+{
     return function (Reducer $reducer) {
         return new Reducer\Cat($reducer);
+    };
+}
+
+function flatten()
+{
+    return function (Reducer $reducer) {
+        return new Reducer\Flatten($reducer);
     };
 }
 
