@@ -5,6 +5,7 @@ namespace Pitchart\Transformer\Tests\Reducer;
 use Pitchart\Transformer\Reducer\Map;
 use PHPUnit\Framework\TestCase;
 use Pitchart\Transformer\Transformer;
+use function Pitchart\Transformer\Tests\square;
 
 class MapTest extends TestCase
 {

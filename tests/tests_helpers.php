@@ -1,5 +1,7 @@
 <?php
 
+namespace Pitchart\Transformer\Tests;
+
 function plus_one() {
     return function ($number) {
         return $number + 1;

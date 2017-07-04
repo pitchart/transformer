@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Pitchart\Transformer\Reducer;
 use Pitchart\Transformer\Transformer;
 use Pitchart\Transformer\Transducer as t;
+use function Pitchart\Transformer\Tests\is_even;
 
 class FilterTest extends TestCase
 {
