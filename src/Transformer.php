@@ -58,11 +58,7 @@ class Transformer
      */
     public function map(callable $callable)
     {
-        return new static($this->iterable, $this->composition->append(
-            function (Reducer $reducer) use ($callable) {
-                return new Map($reducer, $callable);
-            }
-        ), $this->termination, $this->initial);
+        return new static($this->iterable, $this->composition->append(t\map($callable)), $this->termination, $this->initial);
     }
 
     /**
@@ -82,13 +78,7 @@ class Transformer
 
     public function remove(callable $callable)
     {
-        return new static($this->iterable, $this->composition->append(
-            function (Reducer $reducer) use ($callable) {
-                return new Filter($reducer, function($item) use($callable) {
-                    return !($callable($item));
-                });
-            }
-        ), $this->termination, $this->initial);
+        return new static($this->iterable, $this->composition->append(t\remove($callable)), $this->termination, $this->initial);
     }
 
     public function reject(callable $callable)
@@ -98,20 +88,12 @@ class Transformer
 
     public function first(callable $callable)
     {
-        return new static($this->iterable, $this->composition->append(
-            function (Reducer $reducer) use ($callable) {
-                return new First($reducer, $callable);
-            }
-        ), $this->termination, $this->initial);
+        return new static($this->iterable, $this->composition->append(t\first($callable)), $this->termination, $this->initial);
     }
 
     public function cat()
     {
-        return new static($this->iterable, $this->composition->append(
-            function (Reducer $reducer) {
-                return new Cat($reducer);
-            }
-        ), $this->termination, $this->initial);
+        return new static($this->iterable, $this->composition->append(t\cat()), $this->termination, $this->initial);
     }
 
     /**
@@ -119,7 +101,7 @@ class Transformer
      */
     public function toArray()
     {
-        return $this->transduce($this->composition, new ToArray(), $this->iterable, $this->initial);
+        return $this->transduce($this->composition, t\to_array(), $this->iterable, $this->initial);
     }
 
     /**
@@ -127,7 +109,7 @@ class Transformer
      */
     public function single()
     {
-        return $this->transduce($this->composition, new SingleResult(), $this->iterable, $this->initial);
+        return $this->transduce($this->composition, t\to_single(), $this->iterable, $this->initial);
     }
 
     /**

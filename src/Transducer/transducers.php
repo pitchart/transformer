@@ -31,6 +31,20 @@ function filter(callable $callback)
 }
 
 /**
+ * @param callable $callable
+ *
+ * @return \Closure
+ */
+function remove(callable $callable)
+{
+    return function (Reducer $reducer) use ($callable) {
+        return new Reducer\Filter($reducer, function($item) use($callable) {
+            return !($callable($item));
+        });
+    };
+}
+
+/**
  * @param callable $callback
  *
  * @return \Closure
@@ -41,6 +55,17 @@ function first(callable $callback)
         return new Reducer\First($reducer, $callback);
     };
 }
+
+/**
+ * @return \Closure
+ */
+function cat() {
+    return function (Reducer $reducer) {
+        return new Reducer\Cat($reducer);
+    };
+}
+
+// Terminations
 
 /**
  * @return Reducer\Termination\SingleResult
