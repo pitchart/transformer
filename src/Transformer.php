@@ -118,6 +118,11 @@ class Transformer
         return new static($this->iterable, $this->composition->append(t\take_while($callback)), $this->termination, $this->initial);
     }
 
+    public function drop(int $number)
+    {
+        return new static($this->iterable, $this->composition->append(t\drop($number)), $this->termination, $this->initial);
+    }
+
     /**
      * @return mixed
      */

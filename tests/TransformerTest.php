@@ -80,6 +80,14 @@ class TransformerTest extends TestCase
         self::assertEquals([1,2,3], $extracted);
     }
 
+    public function test_can_drop_a_number_of_values_from_a_collection()
+    {
+        $dropped = (new Transformer(range(1, 6)))
+            ->drop(4)->toArray();
+
+        self::assertEquals([5,6], $dropped);
+    }
+
     public function test_can_compose_transformations()
     {
         $first = (new Transformer(range(1,6)))

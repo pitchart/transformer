@@ -101,6 +101,13 @@ function take_while(callable $callback)
     };
 }
 
+function drop(int $number)
+{
+    return function (Reducer $reducer) use ($number) {
+        return new Reducer\Drop($reducer, $number);
+    };
+}
+
 // Terminations
 
 /**
