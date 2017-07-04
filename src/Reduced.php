@@ -2,7 +2,6 @@
 
 namespace Pitchart\Transformer;
 
-
 class Reduced
 {
     /**
@@ -27,6 +26,4 @@ class Reduced
     {
         return $this->value;
     }
-
-
 }

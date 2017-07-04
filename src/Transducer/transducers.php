@@ -39,7 +39,7 @@ function filter(callable $callback)
 function remove(callable $callable)
 {
     return function (Reducer $reducer) use ($callable) {
-        return new Reducer\Filter($reducer, function($item) use($callable) {
+        return new Reducer\Filter($reducer, function ($item) use ($callable) {
             return !($callable($item));
         });
     };

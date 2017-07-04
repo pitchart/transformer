@@ -2,7 +2,6 @@
 
 namespace Pitchart\Transformer\Reducer;
 
-
 use Pitchart\Transformer\Reduced;
 use Pitchart\Transformer\Reducer;
 use Pitchart\Transformer\Reducer\Traits\IsStateless;

@@ -49,6 +49,4 @@ class Take implements Reducer
     {
         return $this->next->complete($result);
     }
-
-
 }

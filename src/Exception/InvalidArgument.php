@@ -2,7 +2,6 @@
 
 namespace Pitchart\Transformer\Exception;
 
-
 class InvalidArgument extends \InvalidArgumentException
 {
 
@@ -12,8 +11,10 @@ class InvalidArgument extends \InvalidArgumentException
             && !($iterable instanceof \Traversable)
         ) {
             throw new static(sprintf(
-               '%s::%s() expects parameter %d to be iterable',
-                $classname, $method, $position
+                '%s::%s() expects parameter %d to be iterable',
+                $classname,
+                $method,
+                $position
             ));
         }
     }

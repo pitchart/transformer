@@ -2,7 +2,6 @@
 
 namespace Pitchart\Transformer\Reducer;
 
-
 use Pitchart\Transformer\Reduced;
 use Pitchart\Transformer\Reducer;
 use Pitchart\Transformer\Reducer\Traits\IsStateless;
@@ -20,6 +19,4 @@ class TakeWhile implements Reducer
         }
         return $result instanceof Reduced ? $result : new Reduced($result);
     }
-
-
 }

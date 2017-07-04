@@ -24,6 +24,7 @@ function transform($iterable, Composition $composition = null, Termination $term
  *
  * @return Composition
  */
-function compose(callable ...$callables) {
+function compose(callable ...$callables)
+{
     return new Composition(...$callables);
 }
