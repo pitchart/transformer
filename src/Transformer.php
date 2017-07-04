@@ -60,7 +60,7 @@ class Transformer
      */
     public function map(callable $callable)
     {
-        return new static($this->iterable, $this->composition->append(t\map($callable)), $this->termination, $this->initial);
+        return $this->appendComposition(t\map($callable));
     }
 
     /**
@@ -70,7 +70,7 @@ class Transformer
      */
     public function filter(callable $callable)
     {
-        return new static($this->iterable, $this->composition->append(t\filter($callable)), $this->termination, $this->initial);
+        return $this->appendComposition(t\filter($callable));
     }
 
     public function select(callable $calable)
@@ -80,7 +80,7 @@ class Transformer
 
     public function remove(callable $callable)
     {
-        return new static($this->iterable, $this->composition->append(t\remove($callable)), $this->termination, $this->initial);
+        return $this->appendComposition(t\remove($callable));
     }
 
     public function reject(callable $callable)
@@ -90,37 +90,37 @@ class Transformer
 
     public function first(callable $callable)
     {
-        return new static($this->iterable, $this->composition->append(t\first($callable)), $this->termination, $this->initial);
+        return $this->appendComposition(t\first($callable));
     }
 
     public function cat()
     {
-        return new static($this->iterable, $this->composition->append(t\cat()), $this->termination, $this->initial);
+        return $this->appendComposition(t\cat());
     }
 
     public function mapcat(callable $callable)
     {
-        return new static($this->iterable, $this->composition->append(t\mapcat($callable)), $this->termination, $this->initial);
+        return $this->appendComposition(t\mapcat($callable));
     }
 
     public function flatten()
     {
-        return new static($this->iterable, $this->composition->append(t\flatten()), $this->termination, $this->initial);
+        return $this->appendComposition(t\flatten());
     }
 
     public function take(int $number)
     {
-        return new static($this->iterable, $this->composition->append(t\take($number)), $this->termination, $this->initial);
+        return $this->appendComposition(t\take($number));
     }
 
     public function takeWhile(callable $callback)
     {
-        return new static($this->iterable, $this->composition->append(t\take_while($callback)), $this->termination, $this->initial);
+        return $this->appendComposition(t\take_while($callback));
     }
 
     public function drop(int $number)
     {
-        return new static($this->iterable, $this->composition->append(t\drop($number)), $this->termination, $this->initial);
+        return $this->appendComposition(t\drop($number));
     }
 
     /**
@@ -176,5 +176,10 @@ class Transformer
     private function generator($iterable)
     {
         yield from $iterable;
+    }
+
+    private function appendComposition(callable $callback)
+    {
+        return new static($this->iterable, $this->composition->append($callback), $this->termination, $this->initial);
     }
 }
