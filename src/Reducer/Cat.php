@@ -10,7 +10,6 @@ class Cat implements Reducer
 {
     use IsStateless;
 
-
     /**
      * Cat constructor.
      */
