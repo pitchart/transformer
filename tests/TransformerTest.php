@@ -63,6 +63,14 @@ class TransformerTest extends TestCase
         self::assertEquals([1, 0, 5, 9, 6], $mapcat);
     }
 
+    public function test_can_extract_a_number_of_values_from_a_collection()
+    {
+        $extracted = (new Transformer(range(1, 6)))
+            ->take(3)->toArray();
+
+        self::assertEquals([1,2,3], $extracted);
+    }
+
     public function test_can_compose_transformations()
     {
         $first = (new Transformer(range(1,6)))

@@ -87,6 +87,13 @@ function flatten()
     };
 }
 
+function take(int $number)
+{
+    return function (Reducer $reducer) use ($number) {
+        return new Reducer\Take($reducer, $number);
+    };
+}
+
 // Terminations
 
 /**

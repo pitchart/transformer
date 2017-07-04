@@ -108,6 +108,11 @@ class Transformer
         return new static($this->iterable, $this->composition->append(t\flatten()), $this->termination, $this->initial);
     }
 
+    public function take(int $number)
+    {
+        return new static($this->iterable, $this->composition->append(t\take($number)), $this->termination, $this->initial);
+    }
+
     /**
      * @return mixed
      */
