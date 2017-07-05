@@ -11,22 +11,22 @@ class DropWhile implements Reducer
 {
     use HasCallback;
 
-    private $stopDroping = false;
+    private $stopDropping = false;
 
     public function init()
     {
-        $this->stopDroping = false;
+        $this->stopDropping = false;
         return $this->next->init();
     }
 
     public function step($result, $current)
     {
-        if ($this->stopDroping === true) {
+        if ($this->stopDropping === true) {
             return $this->next->step($result, $current);
         }
 
         if (!($this->callback)($current)) {
-            $this->stopDroping = true;
+            $this->stopDropping = true;
             return $this->next->step($result, $current);
         }
 

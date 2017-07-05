@@ -208,7 +208,7 @@ class Transformer
     }
 
     /**
-     * Returns a new Transformer with adding a callaback to its composition
+     * Returns a new Transformer with adding a callback to its composition
      *
      * @param callable $callback
      *
