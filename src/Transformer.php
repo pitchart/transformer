@@ -28,8 +28,6 @@ class Transformer
     private $initial;
 
     /**
-     * Transformer constructor.
-     *
      * @param iterable    $iterable
      * @param Composition $composition
      * @param Termination $termination
@@ -37,6 +35,8 @@ class Transformer
      */
     public function __construct($iterable, Composition $composition = null, Termination $termination = null, $initial = null)
     {
+        InvalidArgument::assertIterable($iterable, static::class, __FUNCTION__, 3);
+
         if ($composition === null) {
             $composition = new Composition();
         }
@@ -48,9 +48,19 @@ class Transformer
     }
 
     /**
+     * @param $initial
+     *
+     * @return static
+     */
+    public function initialize($initial)
+    {
+        return new static($this->iterable, $this->composition, $this->termination, $initial);
+    }
+
+    /**
      * @param callable $callback
      *
-     * return static
+     * @return static
      */
     public function map(callable $callback)
     {
@@ -60,93 +70,170 @@ class Transformer
     /**
      * @param callable $callback
      *
-     * @return $this
+     * @return static
      */
     public function filter(callable $callback)
     {
         return $this->appendComposition(t\filter($callback));
     }
 
+    /**
+     * @param callable $calable
+     *
+     * @return static
+     */
     public function select(callable $calable)
     {
         return $this->filter($calable);
     }
 
+    /**
+     * @param callable $callback
+     *
+     * @return static
+     */
     public function keep(callable $callback)
     {
         return $this->appendComposition(t\keep($callback));
     }
 
+    /**
+     * @param callable $callback
+     *
+     * @return static
+     */
     public function remove(callable $callback)
     {
         return $this->appendComposition(t\remove($callback));
     }
 
+    /**
+     * @param callable $callback
+     *
+     * @return static
+     */
     public function reject(callable $callback)
     {
         return $this->remove($callback);
     }
 
+    /**
+     * @param callable $callback
+     *
+     * @return static
+     */
     public function first(callable $callback)
     {
         return $this->appendComposition(t\first($callback));
     }
 
+    /**
+     * @return static
+     */
     public function cat()
     {
         return $this->appendComposition(t\cat());
     }
 
+    /**
+     * @param callable $callback
+     *
+     * @return static
+     */
     public function mapcat(callable $callback)
     {
         return $this->appendComposition(t\mapcat($callback));
     }
 
+    /**
+     * @return static
+     */
     public function flatten()
     {
         return $this->appendComposition(t\flatten());
     }
 
+    /**
+     * @param int $number
+     *
+     * @return static
+     */
     public function take(int $number)
     {
         return $this->appendComposition(t\take($number));
     }
 
+    /**
+     * @param callable $callback
+     *
+     * @return static
+     */
     public function takeWhile(callable $callback)
     {
         return $this->appendComposition(t\take_while($callback));
     }
 
+    /**
+     * @param int $frequency
+     *
+     * @return static
+     */
     public function takeNth(int $frequency)
     {
         return $this->appendComposition(t\take_nth($frequency));
     }
 
+    /**
+     * @param int $number
+     *
+     * @return static
+     */
     public function drop(int $number)
     {
         return $this->appendComposition(t\drop($number));
     }
 
+    /**
+     * @param callable $callback
+     *
+     * @return static
+     */
     public function dropWhile(callable $callback)
     {
         return $this->appendComposition(t\drop_while($callback));
     }
 
+    /**
+     * @param array $map
+     *
+     * @return static
+     */
     public function replace(array $map)
     {
         return $this->appendComposition(t\replace($map));
     }
 
+    /**
+     * @return static
+     */
     public function distinct()
     {
         return $this->appendComposition(t\distinct());
     }
 
+    /**
+     * @return static
+     */
     public function dedupe()
     {
         return $this->appendComposition(t\dedupe());
     }
 
+    /**
+     * @param $size
+     *
+     * @return static
+     */
     public function partition($size)
     {
         return $this->appendComposition(t\partition($size));

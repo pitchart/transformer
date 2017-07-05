@@ -22,7 +22,9 @@ class Composition
     }
 
     /**
-     * @param callable $callback
+     * @param callable[] ...$callback
+     *
+     * @return Composition
      */
     public function append(callable ...$callback)
     {

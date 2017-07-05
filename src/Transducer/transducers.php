@@ -80,7 +80,7 @@ function cat()
 }
 
 /**
- * @param callable $f
+ * @param callable $callback
  *
  * @return \Pitchart\Transformer\Composition
  */
@@ -99,6 +99,11 @@ function flatten()
     };
 }
 
+/**
+ * @param int $number
+ *
+ * @return \Closure
+ */
 function take(int $number)
 {
     return function (Reducer $reducer) use ($number) {
@@ -106,6 +111,11 @@ function take(int $number)
     };
 }
 
+/**
+ * @param callable $callback
+ *
+ * @return \Closure
+ */
 function take_while(callable $callback)
 {
     return function (Reducer $reducer) use ($callback) {
@@ -113,6 +123,11 @@ function take_while(callable $callback)
     };
 }
 
+/**
+ * @param int $frequency
+ *
+ * @return \Closure
+ */
 function take_nth(int $frequency)
 {
     return function (Reducer $reducer) use ($frequency) {
@@ -120,6 +135,11 @@ function take_nth(int $frequency)
     };
 }
 
+/**
+ * @param int $number
+ *
+ * @return \Closure
+ */
 function drop(int $number)
 {
     return function (Reducer $reducer) use ($number) {
@@ -127,6 +147,11 @@ function drop(int $number)
     };
 }
 
+/**
+ * @param callable $callback
+ *
+ * @return \Closure
+ */
 function drop_while(callable $callback)
 {
     return function (Reducer $reducer) use ($callback) {
@@ -134,6 +159,11 @@ function drop_while(callable $callback)
     };
 }
 
+/**
+ * @param array $map
+ *
+ * @return \Closure
+ */
 function replace(array $map)
 {
     return function (Reducer $reducer) use ($map) {
@@ -141,6 +171,9 @@ function replace(array $map)
     };
 }
 
+/**
+ * @return \Closure
+ */
 function distinct()
 {
     return function (Reducer $reducer) {
@@ -148,6 +181,9 @@ function distinct()
     };
 }
 
+/**
+ * @return \Closure
+ */
 function dedupe()
 {
     return function (Reducer $reducer) {
@@ -155,6 +191,11 @@ function dedupe()
     };
 }
 
+/**
+ * @param int $size
+ *
+ * @return \Closure
+ */
 function partition(int $size)
 {
     return function (Reducer $reducer) use ($size) {
