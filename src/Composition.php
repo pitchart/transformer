@@ -22,12 +22,12 @@ class Composition
     }
 
     /**
-     * @param callable $callable
+     * @param callable $callback
      */
-    public function append(callable ...$callable)
+    public function append(callable ...$callback)
     {
         $self = new self();
-        $self->functions = array_merge($this->functions, $callable);
+        $self->functions = array_merge($this->functions, $callback);
         return $self;
     }
 

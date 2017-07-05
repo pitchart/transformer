@@ -13,7 +13,7 @@ class Keep implements Reducer
 
     public function step($result, $current)
     {
-        if (($this->callable)($current) !== null) {
+        if (($this->callback)($current) !== null) {
             return  $this->next->step($result, $current);
         }
         return $result;

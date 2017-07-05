@@ -14,11 +14,11 @@ trait HasCallback
     /**
      * @var callable
      */
-    protected $callable;
+    protected $callback;
 
-    public function __construct(Reducer $next, callable $callable)
+    public function __construct(Reducer $next, callable $callback)
     {
         $this->next = $next;
-        $this->callable = $callable;
+        $this->callback = $callback;
     }
 }

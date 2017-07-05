@@ -25,7 +25,7 @@ class DropWhile implements Reducer
             return $this->next->step($result, $current);
         }
 
-        if (!($this->callable)($current)) {
+        if (!($this->callback)($current)) {
             $this->stopDroping = true;
             return $this->next->step($result, $current);
         }

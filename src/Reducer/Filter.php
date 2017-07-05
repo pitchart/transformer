@@ -19,8 +19,8 @@ class Filter implements Reducer
      */
     public function step($result, $current)
     {
-        $callable = $this->callable;
-        if ($callable($current)) {
+        $callback = $this->callback;
+        if ($callback($current)) {
             return $this->next->step($result, $current);
         }
         return $result;

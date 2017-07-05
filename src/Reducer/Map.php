@@ -20,7 +20,7 @@ class Map implements Reducer
 
     public function step($result, $current)
     {
-        $callable = $this->callable;
-        return $this->next->step($result, $callable($current));
+        $callback = $this->callback;
+        return $this->next->step($result, $callback($current));
     }
 }

@@ -20,11 +20,11 @@ function transform($iterable, Composition $composition = null, Termination $term
 /**
  * Creates a composition of functions
  *
- * @param \callable[] ...$callables
+ * @param \callable[] ...$callbacks
  *
  * @return Composition
  */
-function compose(callable ...$callables)
+function compose(callable ...$callbacks)
 {
-    return new Composition(...$callables);
+    return new Composition(...$callbacks);
 }

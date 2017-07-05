@@ -14,7 +14,7 @@ class TakeWhile implements Reducer
 
     public function step($result, $current)
     {
-        if (($this->callable)($current)) {
+        if (($this->callback)($current)) {
             return $this->next->step($result, $current);
         }
         return $result instanceof Reduced ? $result : new Reduced($result);

@@ -48,23 +48,23 @@ class Transformer
     }
 
     /**
-     * @param callable $callable
+     * @param callable $callback
      *
      * return static
      */
-    public function map(callable $callable)
+    public function map(callable $callback)
     {
-        return $this->appendComposition(t\map($callable));
+        return $this->appendComposition(t\map($callback));
     }
 
     /**
-     * @param callable $callable
+     * @param callable $callback
      *
      * @return $this
      */
-    public function filter(callable $callable)
+    public function filter(callable $callback)
     {
-        return $this->appendComposition(t\filter($callable));
+        return $this->appendComposition(t\filter($callback));
     }
 
     public function select(callable $calable)
@@ -77,19 +77,19 @@ class Transformer
         return $this->appendComposition(t\keep($callback));
     }
 
-    public function remove(callable $callable)
+    public function remove(callable $callback)
     {
-        return $this->appendComposition(t\remove($callable));
+        return $this->appendComposition(t\remove($callback));
     }
 
-    public function reject(callable $callable)
+    public function reject(callable $callback)
     {
-        return $this->remove($callable);
+        return $this->remove($callback);
     }
 
-    public function first(callable $callable)
+    public function first(callable $callback)
     {
-        return $this->appendComposition(t\first($callable));
+        return $this->appendComposition(t\first($callback));
     }
 
     public function cat()
@@ -97,9 +97,9 @@ class Transformer
         return $this->appendComposition(t\cat());
     }
 
-    public function mapcat(callable $callable)
+    public function mapcat(callable $callback)
     {
-        return $this->appendComposition(t\mapcat($callable));
+        return $this->appendComposition(t\mapcat($callback));
     }
 
     public function flatten()

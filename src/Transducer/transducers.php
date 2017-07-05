@@ -44,15 +44,15 @@ function keep(callable $callback)
 }
 
 /**
- * @param callable $callable
+ * @param callable $callback
  *
  * @return \Closure
  */
-function remove(callable $callable)
+function remove(callable $callback)
 {
-    return function (Reducer $reducer) use ($callable) {
-        return new Reducer\Filter($reducer, function ($item) use ($callable) {
-            return !($callable($item));
+    return function (Reducer $reducer) use ($callback) {
+        return new Reducer\Filter($reducer, function ($item) use ($callback) {
+            return !($callback($item));
         });
     };
 }
