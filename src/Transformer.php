@@ -3,12 +3,6 @@
 namespace Pitchart\Transformer;
 
 use Pitchart\Transformer\Exception\InvalidArgument;
-use Pitchart\Transformer\Reducer\Cat;
-use Pitchart\Transformer\Reducer\Filter;
-use Pitchart\Transformer\Reducer\First;
-use Pitchart\Transformer\Reducer\Map;
-use Pitchart\Transformer\Reducer\Termination\SingleResult;
-use Pitchart\Transformer\Reducer\Termination\ToArray;
 use Pitchart\Transformer\Transducer as t;
 
 class Transformer
