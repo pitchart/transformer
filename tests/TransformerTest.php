@@ -136,6 +136,14 @@ class TransformerTest extends TestCase
         self::assertEquals([[1, 2, 3], [4, 5, 6], [7, 8, 9]], $partitioned);
     }
 
+    public function test_can_replace_items_in_a_collection()
+    {
+        $replaced = (new Transformer(range(1, 6)))
+            ->replace([3 => 'Fizz', 5 => 'Buzz'])->toArray();
+
+        self::assertEquals([1, 2, 'Fizz', 4, 'Buzz', 6], $replaced);
+    }
+
 
     public function test_can_compose_transformations()
     {

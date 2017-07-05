@@ -138,6 +138,11 @@ class Transformer
         return $this->appendComposition(t\drop_while($callback));
     }
 
+    public function replace(array $map)
+    {
+        return $this->appendComposition(t\replace($map));
+    }
+
     public function distinct()
     {
         return $this->appendComposition(t\distinct());

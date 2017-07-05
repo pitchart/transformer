@@ -134,6 +134,13 @@ function drop_while(callable $callback)
     };
 }
 
+function replace(array $map)
+{
+    return function (Reducer $reducer) use ($map) {
+        return new Reducer\Replace($reducer, $map);
+    };
+}
+
 function distinct()
 {
     return function (Reducer $reducer) {
