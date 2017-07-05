@@ -10,8 +10,10 @@ class Cat implements Reducer
     use IsStateless;
 
     /**
-     * Cat constructor.
+     * @var Reducer
      */
+    private $next;
+
     public function __construct(Reducer $next)
     {
         $this->next = $next;

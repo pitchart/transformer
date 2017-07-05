@@ -9,6 +9,11 @@ class Flatten implements Reducer
 {
     use IsStateless;
 
+    /**
+     * @var Reducer
+     */
+    private $next;
+
     public function __construct(Reducer $next)
     {
         $this->next = $next;
