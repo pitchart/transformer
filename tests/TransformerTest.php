@@ -88,6 +88,14 @@ class TransformerTest extends TestCase
         self::assertEquals([1,2,3], $extracted);
     }
 
+    public function test_can_extract_every_nth_items_of_a_collection()
+    {
+        $extracted = (new Transformer(range(1, 9)))
+            ->takeNth(3)->toArray();
+
+        self::assertEquals([3, 6 , 9], $extracted);
+    }
+
     public function test_can_drop_a_number_of_values_from_a_collection()
     {
         $dropped = (new Transformer(range(1, 6)))

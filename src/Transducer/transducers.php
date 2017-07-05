@@ -113,6 +113,13 @@ function take_while(callable $callback)
     };
 }
 
+function take_nth(int $frequency)
+{
+    return function (Reducer $reducer) use ($frequency) {
+        return new Reducer\TakeNth($reducer, $frequency);
+    };
+}
+
 function drop(int $number)
 {
     return function (Reducer $reducer) use ($number) {

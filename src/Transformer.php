@@ -123,6 +123,11 @@ class Transformer
         return $this->appendComposition(t\take_while($callback));
     }
 
+    public function takeNth(int $frequency)
+    {
+        return $this->appendComposition(t\take_nth($frequency));
+    }
+
     public function drop(int $number)
     {
         return $this->appendComposition(t\drop($number));
