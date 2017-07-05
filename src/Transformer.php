@@ -78,6 +78,11 @@ class Transformer
         return $this->filter($calable);
     }
 
+    public function keep(callable $callback)
+    {
+        return $this->appendComposition(t\keep($callback));
+    }
+
     public function remove(callable $callable)
     {
         return $this->appendComposition(t\remove($callable));

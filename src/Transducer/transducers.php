@@ -32,6 +32,18 @@ function filter(callable $callback)
 }
 
 /**
+ * @param callable $callback
+ *
+ * @return \Closure
+ */
+function keep(callable $callback)
+{
+    return function (Reducer $reducer) use ($callback) {
+        return new Reducer\Keep($reducer, $callback);
+    };
+}
+
+/**
  * @param callable $callable
  *
  * @return \Closure

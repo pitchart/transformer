@@ -31,6 +31,14 @@ class TransformerTest extends TestCase
         self::assertEquals([2,4,6], $filtered);
     }
 
+    public function test_can_keep_items_for_which_a_callable_does_not_return_null()
+    {
+        $kept = (new Transformer([0, 1, null, true, false]))
+            ->keep(function ($item) { return $item; })->toArray();
+
+        self::assertEquals([0, 1, true, false], $kept);
+    }
+
     public function test_can_reject_items_of_iterable()
     {
         $rejected = (new Transformer(range(1,6)))
@@ -103,7 +111,6 @@ class TransformerTest extends TestCase
 
         self::assertEquals([1, 2, 3, 4, 6, 5, 0], $distincts);
     }
-
 
 
     public function test_can_compose_transformations()
