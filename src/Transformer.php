@@ -138,6 +138,11 @@ class Transformer
         return $this->appendComposition(t\distinct());
     }
 
+    public function dedupe()
+    {
+        return $this->appendComposition(t\dedupe());
+    }
+
     /**
      * @return mixed
      */

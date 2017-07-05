@@ -134,6 +134,13 @@ function distinct()
     };
 }
 
+function dedupe()
+{
+    return function (Reducer $reducer) {
+        return new Reducer\Dedupe($reducer);
+    };
+}
+
 // Terminations
 
 /**

@@ -112,6 +112,14 @@ class TransformerTest extends TestCase
         self::assertEquals([1, 2, 3, 4, 6, 5, 0], $distincts);
     }
 
+    public function test_can_remove_consecutive_equals_items()
+    {
+        $deduped = (new Transformer([1, 2, 3, 2, 2, 4, 6, 5, 1, 0, 0, 1]))
+            ->dedupe()->toArray();
+
+        self::assertEquals([1, 2, 3, 2, 4, 6, 5, 1, 0, 1], $deduped);
+    }
+
 
     public function test_can_compose_transformations()
     {
