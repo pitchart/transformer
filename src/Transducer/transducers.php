@@ -115,6 +115,13 @@ function drop_while(callable $callback)
     };
 }
 
+function distinct()
+{
+    return function (Reducer $reducer) {
+        return new Reducer\Distinct($reducer);
+    };
+}
+
 // Terminations
 
 /**

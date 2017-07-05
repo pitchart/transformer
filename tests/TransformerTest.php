@@ -96,6 +96,14 @@ class TransformerTest extends TestCase
         self::assertEquals([4, 5, 6], $dropped);
     }
 
+    public function test_can_remove_duplicated_items_in_collection()
+    {
+        $distincts = (new Transformer([1, 2, 3, 2, 4, 6, 5, 1, 0]))
+            ->distinct()->toArray();
+
+        self::assertEquals([1, 2, 3, 4, 6, 5, 0], $distincts);
+    }
+
 
 
     public function test_can_compose_transformations()

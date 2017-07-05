@@ -128,6 +128,11 @@ class Transformer
         return $this->appendComposition(t\drop_while($callback));
     }
 
+    public function distinct()
+    {
+        return $this->appendComposition(t\distinct());
+    }
+
     /**
      * @return mixed
      */
