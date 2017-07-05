@@ -120,6 +120,14 @@ class TransformerTest extends TestCase
         self::assertEquals([1, 2, 3, 2, 4, 6, 5, 1, 0, 1], $deduped);
     }
 
+    public function test_can_partition_a_collection()
+    {
+        $partitioned = (new Transformer(range(1,9)))
+            ->partition(3)->toArray();
+
+        self::assertEquals([[1, 2, 3], [4, 5, 6], [7, 8, 9]], $partitioned);
+    }
+
 
     public function test_can_compose_transformations()
     {

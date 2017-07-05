@@ -143,6 +143,11 @@ class Transformer
         return $this->appendComposition(t\dedupe());
     }
 
+    public function partition($size)
+    {
+        return $this->appendComposition(t\partition($size));
+    }
+
     /**
      * @return mixed
      */

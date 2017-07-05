@@ -141,6 +141,13 @@ function dedupe()
     };
 }
 
+function partition(int $size)
+{
+    return function (Reducer $reducer) use ($size) {
+        return new Reducer\Partition($reducer, $size);
+    };
+}
+
 // Terminations
 
 /**
