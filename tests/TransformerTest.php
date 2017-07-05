@@ -88,6 +88,16 @@ class TransformerTest extends TestCase
         self::assertEquals([5,6], $dropped);
     }
 
+    public function test_can_drop_items_while_a_predicat_is_true()
+    {
+        $dropped = (new Transformer(range(1, 6)))
+            ->dropWhile(t\is_lower_than_four())->toArray();
+
+        self::assertEquals([4, 5, 6], $dropped);
+    }
+
+
+
     public function test_can_compose_transformations()
     {
         $first = (new Transformer(range(1,6)))

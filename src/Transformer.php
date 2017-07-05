@@ -123,6 +123,11 @@ class Transformer
         return $this->appendComposition(t\drop($number));
     }
 
+    public function dropWhile(callable $callback)
+    {
+        return $this->appendComposition(t\drop_while($callback));
+    }
+
     /**
      * @return mixed
      */

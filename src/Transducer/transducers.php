@@ -108,6 +108,13 @@ function drop(int $number)
     };
 }
 
+function drop_while(callable $callback)
+{
+    return function (Reducer $reducer) use ($callback) {
+        return new Reducer\DropWhile($reducer, $callback);
+    };
+}
+
 // Terminations
 
 /**
