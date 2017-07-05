@@ -128,7 +128,7 @@ class Transformer
      */
     public function toArray()
     {
-        return $this->transduce($this->composition, t\to_array(), $this->iterable, $this->initial);
+        return $this->terminate(t\to_array());
     }
 
     /**
@@ -136,7 +136,7 @@ class Transformer
      */
     public function single()
     {
-        return $this->transduce($this->composition, t\to_single(), $this->iterable, $this->initial);
+        return $this->terminate(t\to_single());
     }
 
     /**
@@ -178,8 +178,27 @@ class Transformer
         yield from $iterable;
     }
 
+    /**
+     * Returns a new Transformer with adding a callaback to its composition
+     *
+     * @param callable $callback
+     *
+     * @return static
+     */
     private function appendComposition(callable $callback)
     {
         return new static($this->iterable, $this->composition->append($callback), $this->termination, $this->initial);
+    }
+
+    /**
+     * Processes transducing with a Termination
+     *
+     * @param Termination $termination
+     *
+     * @return mixed
+     */
+    private function terminate(Termination $termination)
+    {
+        return $this->transduce($this->composition, $termination, $this->iterable, $this->initial);
     }
 }
