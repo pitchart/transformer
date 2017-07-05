@@ -4,7 +4,7 @@ namespace Pitchart\Transformer\Reducer;
 
 
 use Pitchart\Transformer\Reducer;
-use Pitchart\Transformer\Reducer\Traits\IsStateless;
+
 use Pitchart\Transformer\Reducer\Traits\HasCallback;
 
 class DropWhile implements Reducer

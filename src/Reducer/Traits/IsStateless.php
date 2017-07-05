@@ -2,7 +2,7 @@
 
 namespace Pitchart\Transformer\Reducer\Traits;
 
-use Pitchart\Transformer\Reducer;
+
 
 trait IsStateless
 {
