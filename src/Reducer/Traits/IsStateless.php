@@ -6,11 +6,6 @@ use Pitchart\Transformer\Reducer;
 
 trait IsStateless
 {
-    /**
-     * @var Reducer
-     */
-    private $next;
-
     public function init()
     {
         return $this->next->init();

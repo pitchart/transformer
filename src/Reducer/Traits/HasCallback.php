@@ -9,7 +9,7 @@ trait HasCallback
     /**
      * @var Reducer
      */
-    protected $reducer;
+    protected $next;
 
     /**
      * @var callable
