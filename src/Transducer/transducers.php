@@ -159,6 +159,13 @@ function drop_while(callable $callback)
     };
 }
 
+function paginate($page = 1, $numberOfItems = 10)
+{
+    return function (Reducer $reducer) use ($page, $numberOfItems) {
+        return new Reducer\Paginate($reducer, $page, $numberOfItems);
+    };
+}
+
 /**
  * @param array $map
  *

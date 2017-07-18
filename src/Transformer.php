@@ -204,6 +204,17 @@ class Transformer
     }
 
     /**
+     * @param int $page
+     * @param int $numberOfItems
+     *
+     * @return static
+     */
+    public function paginate($page = 1, $numberOfItems = 10)
+    {
+        return $this->appendComposition(t\paginate($page, $numberOfItems));
+    }
+
+    /**
      * @param array $map
      *
      * @return static

@@ -112,6 +112,15 @@ class TransformerTest extends TestCase
         self::assertEquals([4, 5, 6], $dropped);
     }
 
+    public function test_can_paginate_over_items()
+    {
+        $paginated = (new Transformer(range(1,6)))
+            ->paginate(2, 2)
+            ->toArray();
+
+        self::assertEquals([3, 4], $paginated);
+    }
+
     public function test_can_remove_duplicated_items_in_collection()
     {
         $distincts = (new Transformer([1, 2, 3, 2, 4, 6, 5, 1, 0]))
