@@ -287,6 +287,46 @@ class Transformer
     }
 
     /**
+     * @return mixed
+     */
+    public function sum()
+    {
+        return $this->terminate(t\to_operation('+'));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function difference()
+    {
+        return $this->terminate(t\to_operation('-'));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function multiply()
+    {
+        return $this->terminate(t\to_operation('*'));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function divide()
+    {
+        return $this->terminate(t\to_operation('/'));
+    }
+
+    /**
+     * @return string
+     */
+    public function concat()
+    {
+        return $this->terminate(t\to_operation('.'));
+    }
+
+    /**
      * @param callable    $transducer
      * @param Termination $reducer
      * @param array       $iterable
@@ -297,6 +337,7 @@ class Transformer
     private function transduce(callable $transducer, Termination $reducer, $iterable, $initial = null)
     {
         InvalidArgument::assertIterable($iterable, static::class, __FUNCTION__, 3);
+
         /** @var Reducer $transformation */
         $transformation = $transducer($reducer);
 

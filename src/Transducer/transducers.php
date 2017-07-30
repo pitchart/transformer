@@ -251,3 +251,13 @@ function to_array()
 {
     return new Reducer\Termination\ToArray();
 }
+
+/**
+ * @param string $operator
+ *
+ * @return Reducer\Termination\Operation
+ */
+function to_operation(string $operator)
+{
+    return new Reducer\Termination\Operation($operator);
+}
