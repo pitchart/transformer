@@ -210,6 +210,30 @@ function partition(int $size)
     };
 }
 
+/**
+ * @param callable $callback
+ *
+ * @return \Closure
+ */
+function partition_by(callable $callback)
+{
+    return function (Reducer $reducer) use ($callback) {
+        return new Reducer\PartitionBy($reducer, $callback);
+    };
+}
+
+/**
+ * @param callable $callback
+ *
+ * @return \Closure
+ */
+function group_by(callable $callback)
+{
+    return function (Reducer $reducer) use ($callback) {
+        return new Reducer\GroupBy($reducer, $callback);
+    };
+}
+
 // Terminations
 
 /**

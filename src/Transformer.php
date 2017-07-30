@@ -251,6 +251,26 @@ class Transformer
     }
 
     /**
+     * @param callable $callback
+     *
+     * @return Transformer
+     */
+    public function partitionBy(callable $callback)
+    {
+        return $this->appendComposition(t\partition_by($callback));
+    }
+
+    /**
+     * @param callable $callback
+     *
+     * @return Transformer
+     */
+    public function groupBy(callable $callback)
+    {
+        return $this->appendComposition(t\group_by($callback));
+    }
+
+    /**
      * @return mixed
      */
     public function toArray()

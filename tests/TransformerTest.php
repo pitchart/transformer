@@ -145,6 +145,35 @@ class TransformerTest extends TestCase
         self::assertEquals([[1, 2, 3], [4, 5, 6], [7, 8, 9]], $partitioned);
     }
 
+    public function test_can_partition_a_collection_by_a_callback()
+    {
+        $partitioned = (new Transformer([0, 2, 3, 1, 4, 5, 6, 8, 9, 7]))
+            ->partitionBy(is_even())->toArray();
+
+        self::assertEquals([[0, 2], [3, 1], [4], [5], [6,8], [9, 7]], $partitioned);
+    }
+
+    public function test_can_group_items_by_a_callback()
+    {
+        $grouped = (new Transformer([
+            ['group' => 'foo', 'value' => 'bar'],
+            ['group' => 'bar', 'value' => 'foo'],
+            ['group' => 'fizz', 'value' => 'bar'],
+            ['group' => 'foo', 'value' => 'test'],
+            ['group' => 'fizz', 'value' => 'foo'],
+            ['group' => 'bar', 'value' => 'foo'],
+        ]))
+            ->groupBy(function ($item) {return $item['group'];})
+            ->single()
+        ;
+
+        self::assertEquals([
+            'foo' => [['group' => 'foo', 'value' => 'bar'], ['group' => 'foo', 'value' => 'test'],],
+            'bar' => [['group' => 'bar', 'value' => 'foo'], ['group' => 'bar', 'value' => 'foo'],],
+            'fizz' => [['group' => 'fizz', 'value' => 'bar'], ['group' => 'fizz', 'value' => 'foo'],],
+        ], $grouped);
+    }
+
     public function test_can_replace_items_in_a_collection()
     {
         $replaced = (new Transformer(range(1, 6)))
