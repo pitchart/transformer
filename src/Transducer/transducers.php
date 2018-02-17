@@ -3,7 +3,32 @@
 namespace Pitchart\Transformer\Transducer;
 
 use function Pitchart\Transformer\compose;
+use Pitchart\Transformer\Exception\InvalidArgument;
+use Pitchart\Transformer\Reduced;
 use Pitchart\Transformer\Reducer;
+use Pitchart\Transformer\Termination;
+
+function transduce(callable $transducer, Termination $reducer, $iterable, $initial = null)
+{
+    InvalidArgument::assertIterable($iterable, __FUNCTION__, 3);
+
+    /** @var Reducer $transformation */
+    $transformation = $transducer($reducer);
+
+    $accumulator = ($initial === null) ? $transformation->init() : $initial;
+
+    foreach ($iterable as $current) {
+        $accumulator = $transformation->step($accumulator, $current);
+
+        //early termination
+        if ($accumulator instanceof Reduced) {
+            $accumulator = $accumulator->value();
+            break;
+        }
+    }
+
+    return $transformation->complete($accumulator);
+}
 
 /**
  * Creates a transducer function for mapping

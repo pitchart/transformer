@@ -338,22 +338,7 @@ class Transformer
     {
         InvalidArgument::assertIterable($iterable, static::class, __FUNCTION__, 3);
 
-        /** @var Reducer $transformation */
-        $transformation = $transducer($reducer);
-
-        $accumulator = ($initial === null) ? $transformation->init() : $initial;
-
-        foreach ($this->generator($iterable) as $current) {
-            $accumulator = $transformation->step($accumulator, $current);
-
-            //early termination
-            if ($accumulator instanceof Reduced) {
-                $accumulator = $accumulator->value();
-                break;
-            }
-        }
-
-        return $transformation->complete($accumulator);
+        return t\transduce($transducer, $reducer, $this->generator($iterable), $initial);
     }
 
     /**

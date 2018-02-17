@@ -17,8 +17,8 @@ interface Reducer
      * standard reduction function
      * but it is expected to call the xf step arity 0 or more times as appropriate in the transducer.
      *
-     * @param $result
-     * @param $current
+     * @param mixed $result
+     * @param mixed $current
      *
      * @return mixed
      */
@@ -28,7 +28,7 @@ interface Reducer
      * some processes will not end, but for those that do (like transduce),
      * the completion arity is used to produce a final value and/or flush state
      *
-     * @param $result
+     * @param mixed $result
      *
      * @return mixed
      */
