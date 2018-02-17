@@ -2,6 +2,8 @@
 
 namespace Pitchart\Transformer;
 
+use function Pitchart\Transformer\identity;
+
 /**
  * Class Composition
  *
@@ -38,15 +40,19 @@ class Composition
      */
     public function __invoke()
     {
+        if (empty($this->functions)) {
+            return (function ($value) { return $value; })(func_get_arg(0));
+        }
+
         $functionList = array_reverse($this->functions);
-        $first_function = array_shift($functionList);
+        $first = array_shift($functionList);
 
         return array_reduce(
             $functionList,
             function ($carry, $item) {
                 return $item($carry);
             },
-            call_user_func_array($first_function, func_get_args())
+            call_user_func_array($first, func_get_args())
         );
     }
 }

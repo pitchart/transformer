@@ -14,6 +14,11 @@ use Pitchart\Transformer\Composition;
  */
 class CompositionTest extends TestCase
 {
+    public function test_null_composition_returns_passed_argument()
+    {
+        $null = new Composition();
+        self::assertEquals(2, $null(2));
+    }
 
     public function test_can_compose_one_function() {
         $adds_one = new Composition(plus_one());
