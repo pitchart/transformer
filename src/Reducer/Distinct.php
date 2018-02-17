@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Pitchart\Transformer\Reducer;
-
 
 use Pitchart\Transformer\Reducer;
 
@@ -40,9 +38,7 @@ class Distinct implements Reducer
 
     public function complete($result)
     {
-        $this->distincts = [];
         return $this->next->complete($result);
     }
-
 
 }
