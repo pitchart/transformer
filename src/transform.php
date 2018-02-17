@@ -28,3 +28,24 @@ function compose(callable ...$callbacks)
 {
     return new Composition(...$callbacks);
 }
+
+/**
+ * @param mixed $value
+ *
+ * @return mixed
+ */
+function identity($value)
+{
+    return $value;
+}
+
+/**
+ * @param callable $function
+ * @param array ...$arguments
+ *
+ * @return mixed
+ */
+function curry(callable $function, ...$arguments)
+{
+    return (new Curry($function))(...$arguments);
+}
