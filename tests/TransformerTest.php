@@ -43,6 +43,13 @@ class TransformerTest extends TestCase
         self::assertEquals([1, 2, 3, 4, 5, 6], $values);
     }
 
+    public function test_can_transduce_into_string()
+    {
+        $result = (new Transformer(range(1, 6)))->toString('');
+
+        self::assertEquals('123456', $result);
+    }
+
     public function test_can_map_items_of_iterable()
     {
         $mapped = (new Transformer(range(1,6)))

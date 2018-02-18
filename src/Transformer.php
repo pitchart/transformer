@@ -271,7 +271,17 @@ class Transformer
     }
 
     /**
-     * @return mixed
+     * @param string $glue
+     *
+     * @return string
+     */
+    public function toString($glue = '')
+    {
+        return $this->terminate(t\to_string($glue));
+    }
+
+    /**
+     * @return array
      */
     public function toArray()
     {
@@ -279,7 +289,7 @@ class Transformer
     }
 
     /**
-     * @return mixed
+     * @return \Iterator
      */
     public function toIterator()
     {

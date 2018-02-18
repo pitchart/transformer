@@ -270,6 +270,14 @@ function to_single()
 }
 
 /**
+ * @return Reducer\Termination\ToString
+ */
+function to_string($glue = '')
+{
+    return new Reducer\Termination\ToString($glue);
+}
+
+/**
  * @return Reducer\Termination\ToArray
  */
 function to_array()
