@@ -15,6 +15,34 @@ class TransformerTest extends TestCase
         self::assertInstanceOf(Transformer::class, $transformation);
     }
 
+    /**
+     * @param iterable $iterable
+     * @param mixed $expected
+     * @dataProvider iterableProvider
+     */
+    public function test_can_transform_iterables($iterable, $expected)
+    {
+        $mapped = (new Transformer($iterable))
+            ->map(t\plus_one())->toArray();
+
+        self::assertEquals($expected, $mapped);
+    }
+
+    public function test_can_transduce_into_iterator()
+    {
+        $result = (new Transformer(range(1, 6)))
+            ->toIterator();
+
+        self::assertInstanceOf(\Iterator::class, $result);
+
+        $values = [];
+        foreach ($result as $res) {
+            $values[] = $res;
+        }
+
+        self::assertEquals([1, 2, 3, 4, 5, 6], $values);
+    }
+
     public function test_can_map_items_of_iterable()
     {
         $mapped = (new Transformer(range(1,6)))
@@ -192,6 +220,16 @@ class TransformerTest extends TestCase
             ->single();
 
         self::assertEquals(4, $first);
+    }
+
+
+    public function iterableProvider()
+    {
+        return [
+            'array' => [range(1, 6), range(2, 7)],
+            'iterator' => [new \ArrayIterator(range(1, 6)), range(2, 7)],
+            'array access' => [new \ArrayObject(range(1, 6)), range(2, 7)],
+        ];
     }
 
 }

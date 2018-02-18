@@ -278,6 +278,14 @@ function to_array()
 }
 
 /**
+ * @return Reducer\Termination\ToIterator
+ */
+function to_iterator()
+{
+    return new Reducer\Termination\ToIterator();
+}
+
+/**
  * @param string $operator
  *
  * @return Reducer\Termination\Operation

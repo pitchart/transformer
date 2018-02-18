@@ -281,6 +281,14 @@ class Transformer
     /**
      * @return mixed
      */
+    public function toIterator()
+    {
+        return $this->terminate(t\to_iterator());
+    }
+
+    /**
+     * @return mixed
+     */
     public function single()
     {
         return $this->terminate(t\to_single());
