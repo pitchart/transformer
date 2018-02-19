@@ -40,6 +40,8 @@ function identity($value)
 }
 
 /**
+ * Transforms a function into a pure function
+ *
  * @param callable $function
  * @param array ...$arguments
  *

@@ -37,11 +37,17 @@ function transduce(callable $transducer, Termination $reducer, $iterable, $initi
  *
  * @return \Closure
  */
-function map(callable $callback)
+function map(callable $callback, iterable $sequence = null)
 {
-    return function (Reducer $reducer) use ($callback) {
-        return new Reducer\Map($reducer, $callback);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\Map($reducer, $callback);
+        };
+    }
+    if (is_array($sequence)) {
+        return array_map($callback, $sequence);
+    }
+    return transduce(map($callback), to_array(), $sequence);
 }
 
 /**
