@@ -55,7 +55,7 @@ function map(callable $callback, iterable $sequence = null)
  *
  * @return \Closure
  */
-function filter(callable $callback, $sequence = null)
+function filter(callable $callback, iterable $sequence = null)
 {
     if ($sequence === null) {
         return function (Reducer $reducer) use ($callback) {
@@ -66,7 +66,7 @@ function filter(callable $callback, $sequence = null)
     if (is_array($sequence)) {
         return array_values(array_filter($sequence, $callback));
     }
-    return transduce(filter($sequence), to_array(), $sequence);
+    return transduce(filter($callback), to_array(), $sequence);
 }
 
 /**
@@ -86,13 +86,21 @@ function keep(callable $callback)
  *
  * @return \Closure
  */
-function remove(callable $callback)
+function remove(callable $callback, iterable $sequence = null)
 {
-    return function (Reducer $reducer) use ($callback) {
-        return new Reducer\Filter($reducer, function ($item) use ($callback) {
-            return !($callback($item));
-        });
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\Filter($reducer, function ($item) use ($callback) {
+                return !($callback($item));
+            });
+        };
+    }
+    if (is_array($sequence)) {
+        return array_values(array_filter($sequence, function ($item) use ($callback) {
+            return !$callback($item);
+        }));
+    }
+    return transduce(filter($callback), to_array(), $sequence);
 }
 
 /**
