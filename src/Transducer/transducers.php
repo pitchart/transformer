@@ -55,11 +55,18 @@ function map(callable $callback, iterable $sequence = null)
  *
  * @return \Closure
  */
-function filter(callable $callback)
+function filter(callable $callback, $sequence = null)
 {
-    return function (Reducer $reducer) use ($callback) {
-        return new Reducer\Filter($reducer, $callback);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\Filter($reducer, $callback);
+        };
+    }
+
+    if (is_array($sequence)) {
+        return array_values(array_filter($sequence, $callback));
+    }
+    return transduce(filter($sequence), to_array(), $sequence);
 }
 
 /**

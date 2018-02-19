@@ -2,7 +2,6 @@
 
 namespace Pitchart\Transformer\Tests\Reducer;
 
-use Pitchart\Transformer\Reducer\Filter;
 use PHPUnit\Framework\TestCase;
 use Pitchart\Transformer\Reducer;
 use Pitchart\Transformer\Transformer;
@@ -25,5 +24,11 @@ class FilterTest extends TestCase
             ->toArray();
 
         $this->assertEquals([2, 4], $squared);
+    }
+
+    public function test_applies_filter_to_arrays()
+    {
+        $evens = t\filter(is_even(), [1, 2, 3, 4]);
+        self::assertEquals([2, 4], $evens);
     }
 }
