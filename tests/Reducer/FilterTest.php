@@ -26,9 +26,15 @@ class FilterTest extends TestCase
         $this->assertEquals([2, 4], $squared);
     }
 
-    public function test_applies_filter_to_arrays()
+    public function test_applies_to_arrays()
     {
         $evens = t\filter(is_even(), [1, 2, 3, 4]);
+        self::assertEquals([2, 4], $evens);
+    }
+
+    public function test_applies_to_iterators()
+    {
+        $evens = t\filter(is_even(), new \ArrayIterator([1, 2, 3, 4]));
         self::assertEquals([2, 4], $evens);
     }
 }

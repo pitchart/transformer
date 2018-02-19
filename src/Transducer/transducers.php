@@ -100,7 +100,7 @@ function remove(callable $callback, iterable $sequence = null)
             return !$callback($item);
         }));
     }
-    return transduce(filter($callback), to_array(), $sequence);
+    return transduce(remove($callback), to_array(), $sequence);
 }
 
 /**
