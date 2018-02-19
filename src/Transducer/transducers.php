@@ -108,11 +108,18 @@ function remove(callable $callback, iterable $sequence = null)
  *
  * @return \Closure
  */
-function first(callable $callback)
+function first(callable $callback, $sequence = null)
 {
-    return function (Reducer $reducer) use ($callback) {
-        return new Reducer\First($reducer, $callback);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\First($reducer, $callback);
+        };
+    }
+    if (is_array($sequence)) {
+        $filtered = filter($callback, $sequence);
+        return array_shift($filtered);
+    }
+    return transduce(first($callback), to_single(), $sequence);
 }
 
 /**
