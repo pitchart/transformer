@@ -35,5 +35,4 @@ class DropWhileTest extends TestCase
         self::assertEquals([4, 5, 6], $dropped);
     }
 
-
 }

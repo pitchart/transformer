@@ -258,11 +258,21 @@ function drop_while(callable $callback, $sequence = null)
     return transduce(drop_while($callback), to_array(), $sequence);
 }
 
-function paginate($page = 1, $numberOfItems = 10)
+/**
+ * @param int $page
+ * @param int $numberOfItems
+ * @param iterable|null $sequence
+ *
+ * @return \Closure|array
+ */
+function paginate($page = 1, $numberOfItems = 10, $sequence = null)
 {
-    return function (Reducer $reducer) use ($page, $numberOfItems) {
-        return new Reducer\Paginate($reducer, $page, $numberOfItems);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($page, $numberOfItems) {
+            return new Reducer\Paginate($reducer, $page, $numberOfItems);
+        };
+    }
+    return transduce(paginate($page, $numberOfItems), to_array(), $sequence);
 }
 
 /**
