@@ -132,13 +132,18 @@ function first(callable $callback, $sequence = null)
 }
 
 /**
- * @return \Closure
+ * @param iterable|null $sequence
+ *
+ * @return \Closure|array
  */
-function cat()
+function cat($sequence = null)
 {
-    return function (Reducer $reducer) {
-        return new Reducer\Cat($reducer);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) {
+            return new Reducer\Cat($reducer);
+        };
+    }
+    return transduce(cat(), to_array(), $sequence);
 }
 
 /**
