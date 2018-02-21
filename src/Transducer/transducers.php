@@ -203,11 +203,14 @@ function take(int $number, $sequence = null)
  *
  * @return \Closure
  */
-function take_while(callable $callback)
+function take_while(callable $callback, $sequence = null)
 {
-    return function (Reducer $reducer) use ($callback) {
-        return new Reducer\TakeWhile($reducer, $callback);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\TakeWhile($reducer, $callback);
+        };
+    }
+    return transduce(take_while($callback), to_array(), $sequence);
 }
 
 /**
