@@ -261,31 +261,40 @@ function paginate($page = 1, $numberOfItems = 10)
  *
  * @return \Closure
  */
-function replace(array $map)
+function replace(array $map, $sequence = null)
 {
-    return function (Reducer $reducer) use ($map) {
-        return new Reducer\Replace($reducer, $map);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($map) {
+            return new Reducer\Replace($reducer, $map);
+        };
+    }
+    return transduce(replace($map), to_array(), $sequence);
 }
 
 /**
  * @return \Closure
  */
-function distinct()
+function distinct($sequence = null)
 {
-    return function (Reducer $reducer) {
-        return new Reducer\Distinct($reducer);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) {
+            return new Reducer\Distinct($reducer);
+        };
+    }
+    return transduce(distinct(), to_array(), $sequence);
 }
 
 /**
  * @return \Closure
  */
-function dedupe()
+function dedupe($sequence = null)
 {
-    return function (Reducer $reducer) {
-        return new Reducer\Dedupe($reducer);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) {
+            return new Reducer\Dedupe($reducer);
+        };
+    }
+    return transduce(dedupe(), to_array(),  $sequence);
 }
 
 /**
