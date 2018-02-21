@@ -233,11 +233,14 @@ function take_nth(int $frequency, $sequence = null)
  *
  * @return \Closure
  */
-function drop(int $number)
+function drop(int $number, $sequence = null)
 {
-    return function (Reducer $reducer) use ($number) {
-        return new Reducer\Drop($reducer, $number);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($number) {
+            return new Reducer\Drop($reducer, $number);
+        };
+    }
+    return transduce(drop($number), to_array(), $sequence);
 }
 
 /**
