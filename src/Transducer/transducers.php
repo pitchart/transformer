@@ -248,11 +248,14 @@ function drop(int $number, $sequence = null)
  *
  * @return \Closure
  */
-function drop_while(callable $callback)
+function drop_while(callable $callback, $sequence = null)
 {
-    return function (Reducer $reducer) use ($callback) {
-        return new Reducer\DropWhile($reducer, $callback);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\DropWhile($reducer, $callback);
+        };
+    }
+    return transduce(drop_while($callback), to_array(), $sequence);
 }
 
 function paginate($page = 1, $numberOfItems = 10)
