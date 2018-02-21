@@ -158,12 +158,16 @@ function cat($sequence = null)
 
 /**
  * @param callable $callback
+ * @param null $sequence
  *
- * @return \Pitchart\Transformer\Composition
+ * @return mixed|\Pitchart\Transformer\Composition
  */
-function mapcat(callable $callback)
+function mapcat(callable $callback, $sequence = null)
 {
-    return compose(map($callback), cat());
+    if ($sequence === null) {
+        return compose(map($callback), cat());
+    }
+    return transduce(compose(map($callback), cat()), to_array(), $sequence);
 }
 
 /**
