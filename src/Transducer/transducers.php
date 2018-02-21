@@ -188,11 +188,14 @@ function flatten($sequence = null)
  *
  * @return \Closure
  */
-function take(int $number)
+function take(int $number, $sequence = null)
 {
-    return function (Reducer $reducer) use ($number) {
-        return new Reducer\Take($reducer, $number);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($number) {
+            return new Reducer\Take($reducer, $number);
+        };
+    }
+    return transduce(take($number), to_array(), $sequence);
 }
 
 /**
