@@ -218,11 +218,14 @@ function take_while(callable $callback, $sequence = null)
  *
  * @return \Closure
  */
-function take_nth(int $frequency)
+function take_nth(int $frequency, $sequence = null)
 {
-    return function (Reducer $reducer) use ($frequency) {
-        return new Reducer\TakeNth($reducer, $frequency);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($frequency) {
+            return new Reducer\TakeNth($reducer, $frequency);
+        };
+    }
+    return transduce(take_nth($frequency), to_array(), $sequence);
 }
 
 /**
