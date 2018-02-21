@@ -173,11 +173,14 @@ function mapcat(callable $callback, $sequence = null)
 /**
  * @return \Closure
  */
-function flatten()
+function flatten($sequence = null)
 {
-    return function (Reducer $reducer) {
-        return new Reducer\Flatten($reducer);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) {
+            return new Reducer\Flatten($reducer);
+        };
+    }
+    return transduce(flatten(), to_array(), $sequence);
 }
 
 /**
