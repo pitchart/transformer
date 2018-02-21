@@ -8,6 +8,14 @@ use Pitchart\Transformer\Reduced;
 use Pitchart\Transformer\Reducer;
 use Pitchart\Transformer\Termination;
 
+/**
+ * @param callable $transducer
+ * @param Termination $reducer
+ * @param $iterable
+ * @param null $initial
+ *
+ * @return mixed
+ */
 function transduce(callable $transducer, Termination $reducer, $iterable, $initial = null)
 {
     InvalidArgument::assertIterable($iterable, __FUNCTION__, 3);
@@ -34,10 +42,11 @@ function transduce(callable $transducer, Termination $reducer, $iterable, $initi
  * Creates a transducer function for mapping
  *
  * @param callable $callback
+ * @param iterable|null $sequence
  *
- * @return \Closure
+ * @return array|\Closure|mixed
  */
-function map(callable $callback, iterable $sequence = null)
+function map(callable $callback, $sequence = null)
 {
     if ($sequence === null) {
         return function (Reducer $reducer) use ($callback) {
@@ -52,10 +61,11 @@ function map(callable $callback, iterable $sequence = null)
 
 /**
  * @param callable $callback
+ * @param iterable|null $sequence
  *
- * @return \Closure
+ * @return array|\Closure
  */
-function filter(callable $callback, iterable $sequence = null)
+function filter(callable $callback, $sequence = null)
 {
     if ($sequence === null) {
         return function (Reducer $reducer) use ($callback) {
@@ -95,7 +105,7 @@ function keep(callable $callback, $sequence = null)
  *
  * @return \Closure
  */
-function remove(callable $callback, iterable $sequence = null)
+function remove(callable $callback, $sequence = null)
 {
     if ($sequence === null) {
         return function (Reducer $reducer) use ($callback) {
