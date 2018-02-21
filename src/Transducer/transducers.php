@@ -71,14 +71,23 @@ function filter(callable $callback, iterable $sequence = null)
 
 /**
  * @param callable $callback
+ * @param iterable|null $sequence
  *
- * @return \Closure
+ * @return array|\Closure
  */
-function keep(callable $callback)
+function keep(callable $callback, $sequence = null)
 {
-    return function (Reducer $reducer) use ($callback) {
-        return new Reducer\Keep($reducer, $callback);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\Keep($reducer, $callback);
+        };
+    }
+    if (is_array($sequence)) {
+        return array_values(array_filter($sequence, function ($item) use ($callback) {
+            return $callback($item) !== null;
+        }));
+    }
+    return transduce(keep($callback), to_array(), $sequence);
 }
 
 /**
