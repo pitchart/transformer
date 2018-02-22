@@ -15,7 +15,7 @@ class PartitionTest extends TestCase
         self::assertInstanceOf(Reducer::class, t\partition(4)(t\to_array()));
     }
 
-    public function test_paginates_over_items()
+    public function test_partitions_a_collection()
     {
         $partitioned = (new Transformer(range(1,9)))
             ->partition(3)->toArray();

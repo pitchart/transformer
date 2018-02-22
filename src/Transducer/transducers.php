@@ -336,11 +336,14 @@ function partition(int $size, $sequence = null)
  *
  * @return \Closure
  */
-function partition_by(callable $callback)
+function partition_by(callable $callback, $sequence = null)
 {
-    return function (Reducer $reducer) use ($callback) {
-        return new Reducer\PartitionBy($reducer, $callback);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\PartitionBy($reducer, $callback);
+        };
+    }
+    return transduce(partition_by($callback), to_array(), $sequence);
 }
 
 /**
