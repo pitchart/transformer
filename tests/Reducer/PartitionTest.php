@@ -23,6 +23,17 @@ class PartitionTest extends TestCase
         self::assertEquals([[1, 2, 3], [4, 5, 6], [7, 8, 9]], $partitioned);
     }
 
+    public function test_is_immutable()
+    {
+        $transformer = (new Transformer(range(1, 9)));
+        $copy = clone $transformer;
+        $expected = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+
+        self::assertEquals($expected, $transformer->partition(3)->toArray());
+        self::assertEquals($expected, $transformer->partition(3)->toArray());
+        self::assertEquals($transformer, $copy);
+    }
+
     public function test_applies_to_arrays()
     {
         $partitioned = t\partition(3, range(1,9));

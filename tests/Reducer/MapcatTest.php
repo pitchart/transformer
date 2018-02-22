@@ -25,6 +25,19 @@ class MapcatTest extends TestCase
         self::assertEquals([1, 0, 5, 9, 6], $mapcat);
     }
 
+    public function test_is_immutable()
+    {
+        $transformer = (new Transformer([[0 ,1], [], [2, 3], [4, 5], [6]]));
+        $copy = clone $transformer;
+        $function = function ($item) {
+            return array_sum($item);
+        };
+
+        self::assertEquals([1, 0, 5, 9, 6], $transformer->mapcat($function)->toArray());
+        self::assertEquals([1, 0, 5, 9, 6], $transformer->mapcat($function)->toArray());
+        self::assertEquals($transformer, $copy);
+    }
+
     public function test_applies_to_arrays()
     {
         $mapcat = t\mapcat(function ($item) {

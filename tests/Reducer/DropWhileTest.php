@@ -23,6 +23,16 @@ class DropWhileTest extends TestCase
         self::assertEquals([4, 5, 6], $dropped);
     }
 
+    public function test_is_immutable()
+    {
+        $transformer = (new Transformer([1, 2, 3, 4, 5, 6]));
+        $copy = clone $transformer;
+
+        self::assertEquals([4, 5, 6], $transformer->dropWhile(is_lower_than_four())->toArray());
+        self::assertEquals([4, 5, 6], $transformer->dropWhile(is_lower_than_four())->toArray());
+        self::assertEquals($transformer, $copy);
+    }
+
     public function test_applies_to_arrays()
     {
         $dropped = t\drop_while(is_lower_than_four(), range(1, 6));

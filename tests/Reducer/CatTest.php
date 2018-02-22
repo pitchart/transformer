@@ -22,6 +22,16 @@ class CatTest extends TestCase
         self::assertEquals([0, 1, 2, 3, [4, 5], 6], $concatenated);
     }
 
+    public function test_is_immutable()
+    {
+        $transformer = (new Transformer([0 ,1, [2, 3], [[4, 5], 6]]));
+        $copy = clone $transformer;
+
+        self::assertEquals([0, 1, 2, 3, [4, 5], 6], $transformer->cat()->toArray());
+        self::assertEquals([0, 1, 2, 3, [4, 5], 6], $transformer->cat()->toArray());
+        self::assertEquals($transformer, $copy);
+    }
+
     public function test_removes_empty_nested_lists()
     {
         $concatenated = (new Transformer([0 ,1, [], [2, 3], [[4, 5], 6]]))

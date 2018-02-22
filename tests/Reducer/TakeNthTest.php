@@ -22,6 +22,17 @@ class TakeNthTest extends TestCase
         self::assertEquals([3, 6 , 9], $extracted);
     }
 
+    public function test_is_immutable()
+    {
+        $transformer = (new Transformer(range(1, 9)));
+        $copy = clone $transformer;
+        $expected = [3, 6, 9];
+
+        self::assertEquals($expected, $transformer->takeNth(3)->toArray());
+        self::assertEquals($expected, $transformer->takeNth(3)->toArray());
+        self::assertEquals($transformer, $copy);
+    }
+
     public function test_applies_to_arrays()
     {
         $extracted = t\take_nth(3, range(1, 9));

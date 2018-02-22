@@ -24,6 +24,17 @@ class TakeWhileTest extends TestCase
         self::assertEquals([1,2,3], $extracted);
     }
 
+    public function test_is_immutable()
+    {
+        $transformer = (new Transformer(range(1, 9)));
+        $copy = clone $transformer;
+        $expected = [1, 2, 3];
+
+        self::assertEquals($expected, $transformer->takeWhile(is_lower_than_four())->toArray());
+        self::assertEquals($expected, $transformer->takeWhile(is_lower_than_four())->toArray());
+        self::assertEquals($transformer, $copy);
+    }
+
     public function test_applies_to_arrays()
     {
         $extracted = t\take_while(is_lower_than_four(), range(1, 6));

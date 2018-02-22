@@ -23,6 +23,16 @@ class PaginateTest extends TestCase
         self::assertEquals([3, 4], $paginated);
     }
 
+    public function test_is_immutable()
+    {
+        $transformer = (new Transformer([1, 2, 3, 4, 5]));
+        $copy = clone $transformer;
+
+        self::assertEquals([3, 4], $transformer->paginate(2, 2)->toArray());
+        self::assertEquals([3, 4], $transformer->paginate(2, 2)->toArray());
+        self::assertEquals($transformer, $copy);
+    }
+
     public function test_applies_to_arrays()
     {
         $paginated = t\paginate(2, 2, range(1,6));

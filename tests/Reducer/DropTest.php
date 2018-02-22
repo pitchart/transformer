@@ -23,6 +23,16 @@ class DropTest extends TestCase
         self::assertEquals([5,6], $dropped);
     }
 
+    public function test_is_immutable()
+    {
+        $transformer = (new Transformer([1, 2, 3, 2, 4, 6]));
+        $copy = clone $transformer;
+
+        self::assertEquals([4,6], $transformer->drop(4)->toArray());
+        self::assertEquals([4,6], $transformer->drop(4)->toArray());
+        self::assertEquals($transformer, $copy);
+    }
+
     public function test_applies_to_arrays()
     {
         $dropped = t\drop(4, range(1, 6));

@@ -24,6 +24,17 @@ class PartitionByTest extends TestCase
         self::assertEquals([[0, 2], [3, 1], [4], [5], [6,8], [9, 7]], $partitioned);
     }
 
+    public function test_is_immutable()
+    {
+        $transformer = (new Transformer([0, 2, 3, 1, 4, 5, 6, 8, 9, 7]));
+        $copy = clone $transformer;
+        $expected = [[0, 2], [3, 1], [4], [5], [6,8], [9, 7]];
+
+        self::assertEquals($expected, $transformer->partitionBy(is_even())->toArray());
+        self::assertEquals($expected, $transformer->partitionBy(is_even())->toArray());
+        self::assertEquals($transformer, $copy);
+    }
+
     public function test_applies_to_arrays()
     {
         $partitioned = t\partition_by(is_even(), [0, 2, 3, 1, 4, 5, 6, 8, 9, 7]);

@@ -26,8 +26,11 @@ class TakeTest extends TestCase
     public function test_is_immutable()
     {
         $transformer = (new Transformer(range(1, 6)));
+        $copy = clone $transformer;
+
         self::assertEquals([1,2,3], $transformer->take(3)->toArray());
         self::assertEquals([1,2,3], $transformer->take(3)->toArray());
+        self::assertEquals($transformer, $copy);
     }
 
     public function test_applies_to_arrays()
