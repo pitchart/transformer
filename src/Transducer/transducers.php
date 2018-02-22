@@ -8,6 +8,14 @@ use Pitchart\Transformer\Reduced;
 use Pitchart\Transformer\Reducer;
 use Pitchart\Transformer\Termination;
 
+/**
+ * @param callable $transducer
+ * @param Termination $reducer
+ * @param $iterable
+ * @param null $initial
+ *
+ * @return mixed
+ */
 function transduce(callable $transducer, Termination $reducer, $iterable, $initial = null)
 {
     InvalidArgument::assertIterable($iterable, __FUNCTION__, 3);
@@ -34,14 +42,62 @@ function transduce(callable $transducer, Termination $reducer, $iterable, $initi
  * Creates a transducer function for mapping
  *
  * @param callable $callback
+ * @param iterable|null $sequence
  *
- * @return \Closure
+ * @return array|\Closure|mixed
  */
-function map(callable $callback)
+function map(callable $callback, $sequence = null)
 {
-    return function (Reducer $reducer) use ($callback) {
-        return new Reducer\Map($reducer, $callback);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\Map($reducer, $callback);
+        };
+    }
+    if (is_array($sequence)) {
+        return array_map($callback, $sequence);
+    }
+    return transduce(map($callback), to_array(), $sequence);
+}
+
+/**
+ * @param callable $callback
+ * @param iterable|null $sequence
+ *
+ * @return array|\Closure
+ */
+function filter(callable $callback, $sequence = null)
+{
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\Filter($reducer, $callback);
+        };
+    }
+
+    if (is_array($sequence)) {
+        return array_values(array_filter($sequence, $callback));
+    }
+    return transduce(filter($callback), to_array(), $sequence);
+}
+
+/**
+ * @param callable $callback
+ * @param iterable|null $sequence
+ *
+ * @return array|\Closure
+ */
+function keep(callable $callback, $sequence = null)
+{
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\Keep($reducer, $callback);
+        };
+    }
+    if (is_array($sequence)) {
+        return array_values(array_filter($sequence, function ($item) use ($callback) {
+            return $callback($item) !== null;
+        }));
+    }
+    return transduce(keep($callback), to_array(), $sequence);
 }
 
 /**
@@ -49,11 +105,21 @@ function map(callable $callback)
  *
  * @return \Closure
  */
-function filter(callable $callback)
+function remove(callable $callback, $sequence = null)
 {
-    return function (Reducer $reducer) use ($callback) {
-        return new Reducer\Filter($reducer, $callback);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\Filter($reducer, function ($item) use ($callback) {
+                return !($callback($item));
+            });
+        };
+    }
+    if (is_array($sequence)) {
+        return array_values(array_filter($sequence, function ($item) use ($callback) {
+            return !$callback($item);
+        }));
+    }
+    return transduce(remove($callback), to_array(), $sequence);
 }
 
 /**
@@ -61,67 +127,60 @@ function filter(callable $callback)
  *
  * @return \Closure
  */
-function keep(callable $callback)
+function first(callable $callback, $sequence = null)
 {
-    return function (Reducer $reducer) use ($callback) {
-        return new Reducer\Keep($reducer, $callback);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\First($reducer, $callback);
+        };
+    }
+    if (is_array($sequence)) {
+        $filtered = filter($callback, $sequence);
+        return array_shift($filtered);
+    }
+    return transduce(first($callback), to_single(), $sequence);
+}
+
+/**
+ * @param iterable|null $sequence
+ *
+ * @return \Closure|array
+ */
+function cat($sequence = null)
+{
+    if ($sequence === null) {
+        return function (Reducer $reducer) {
+            return new Reducer\Cat($reducer);
+        };
+    }
+    return transduce(cat(), to_array(), $sequence);
 }
 
 /**
  * @param callable $callback
+ * @param null $sequence
  *
- * @return \Closure
+ * @return mixed|\Pitchart\Transformer\Composition
  */
-function remove(callable $callback)
+function mapcat(callable $callback, $sequence = null)
 {
-    return function (Reducer $reducer) use ($callback) {
-        return new Reducer\Filter($reducer, function ($item) use ($callback) {
-            return !($callback($item));
-        });
-    };
-}
-
-/**
- * @param callable $callback
- *
- * @return \Closure
- */
-function first(callable $callback)
-{
-    return function (Reducer $reducer) use ($callback) {
-        return new Reducer\First($reducer, $callback);
-    };
+    if ($sequence === null) {
+        return compose(map($callback), cat());
+    }
+    return transduce(compose(map($callback), cat()), to_array(), $sequence);
 }
 
 /**
  * @return \Closure
  */
-function cat()
+function flatten($sequence = null)
 {
-    return function (Reducer $reducer) {
-        return new Reducer\Cat($reducer);
-    };
-}
-
-/**
- * @param callable $callback
- *
- * @return \Pitchart\Transformer\Composition
- */
-function mapcat(callable $callback)
-{
-    return compose(map($callback), cat());
-}
-
-/**
- * @return \Closure
- */
-function flatten()
-{
-    return function (Reducer $reducer) {
-        return new Reducer\Flatten($reducer);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) {
+            return new Reducer\Flatten($reducer);
+        };
+    }
+    return transduce(flatten(), to_array(), $sequence);
 }
 
 /**
@@ -129,11 +188,14 @@ function flatten()
  *
  * @return \Closure
  */
-function take(int $number)
+function take(int $number, $sequence = null)
 {
-    return function (Reducer $reducer) use ($number) {
-        return new Reducer\Take($reducer, $number);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($number) {
+            return new Reducer\Take($reducer, $number);
+        };
+    }
+    return transduce(take($number), to_array(), $sequence);
 }
 
 /**
@@ -141,11 +203,14 @@ function take(int $number)
  *
  * @return \Closure
  */
-function take_while(callable $callback)
+function take_while(callable $callback, $sequence = null)
 {
-    return function (Reducer $reducer) use ($callback) {
-        return new Reducer\TakeWhile($reducer, $callback);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\TakeWhile($reducer, $callback);
+        };
+    }
+    return transduce(take_while($callback), to_array(), $sequence);
 }
 
 /**
@@ -153,11 +218,14 @@ function take_while(callable $callback)
  *
  * @return \Closure
  */
-function take_nth(int $frequency)
+function take_nth(int $frequency, $sequence = null)
 {
-    return function (Reducer $reducer) use ($frequency) {
-        return new Reducer\TakeNth($reducer, $frequency);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($frequency) {
+            return new Reducer\TakeNth($reducer, $frequency);
+        };
+    }
+    return transduce(take_nth($frequency), to_array(), $sequence);
 }
 
 /**
@@ -165,11 +233,14 @@ function take_nth(int $frequency)
  *
  * @return \Closure
  */
-function drop(int $number)
+function drop(int $number, $sequence = null)
 {
-    return function (Reducer $reducer) use ($number) {
-        return new Reducer\Drop($reducer, $number);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($number) {
+            return new Reducer\Drop($reducer, $number);
+        };
+    }
+    return transduce(drop($number), to_array(), $sequence);
 }
 
 /**
@@ -177,18 +248,31 @@ function drop(int $number)
  *
  * @return \Closure
  */
-function drop_while(callable $callback)
+function drop_while(callable $callback, $sequence = null)
 {
-    return function (Reducer $reducer) use ($callback) {
-        return new Reducer\DropWhile($reducer, $callback);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\DropWhile($reducer, $callback);
+        };
+    }
+    return transduce(drop_while($callback), to_array(), $sequence);
 }
 
-function paginate($page = 1, $numberOfItems = 10)
+/**
+ * @param int $page
+ * @param int $numberOfItems
+ * @param iterable|null $sequence
+ *
+ * @return \Closure|array
+ */
+function paginate($page = 1, $numberOfItems = 10, $sequence = null)
 {
-    return function (Reducer $reducer) use ($page, $numberOfItems) {
-        return new Reducer\Paginate($reducer, $page, $numberOfItems);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($page, $numberOfItems) {
+            return new Reducer\Paginate($reducer, $page, $numberOfItems);
+        };
+    }
+    return transduce(paginate($page, $numberOfItems), to_array(), $sequence);
 }
 
 /**
@@ -196,31 +280,40 @@ function paginate($page = 1, $numberOfItems = 10)
  *
  * @return \Closure
  */
-function replace(array $map)
+function replace(array $map, $sequence = null)
 {
-    return function (Reducer $reducer) use ($map) {
-        return new Reducer\Replace($reducer, $map);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($map) {
+            return new Reducer\Replace($reducer, $map);
+        };
+    }
+    return transduce(replace($map), to_array(), $sequence);
 }
 
 /**
  * @return \Closure
  */
-function distinct()
+function distinct($sequence = null)
 {
-    return function (Reducer $reducer) {
-        return new Reducer\Distinct($reducer);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) {
+            return new Reducer\Distinct($reducer);
+        };
+    }
+    return transduce(distinct(), to_array(), $sequence);
 }
 
 /**
  * @return \Closure
  */
-function dedupe()
+function dedupe($sequence = null)
 {
-    return function (Reducer $reducer) {
-        return new Reducer\Dedupe($reducer);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) {
+            return new Reducer\Dedupe($reducer);
+        };
+    }
+    return transduce(dedupe(), to_array(),  $sequence);
 }
 
 /**
@@ -228,11 +321,14 @@ function dedupe()
  *
  * @return \Closure
  */
-function partition(int $size)
+function partition(int $size, $sequence = null)
 {
-    return function (Reducer $reducer) use ($size) {
-        return new Reducer\Partition($reducer, $size);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($size) {
+            return new Reducer\Partition($reducer, $size);
+        };
+    }
+    return transduce(partition($size), to_array(), $sequence);
 }
 
 /**
@@ -240,11 +336,14 @@ function partition(int $size)
  *
  * @return \Closure
  */
-function partition_by(callable $callback)
+function partition_by(callable $callback, $sequence = null)
 {
-    return function (Reducer $reducer) use ($callback) {
-        return new Reducer\PartitionBy($reducer, $callback);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\PartitionBy($reducer, $callback);
+        };
+    }
+    return transduce(partition_by($callback), to_array(), $sequence);
 }
 
 /**
@@ -252,11 +351,14 @@ function partition_by(callable $callback)
  *
  * @return \Closure
  */
-function group_by(callable $callback)
+function group_by(callable $callback, $sequence = null)
 {
-    return function (Reducer $reducer) use ($callback) {
-        return new Reducer\GroupBy($reducer, $callback);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\GroupBy($reducer, $callback);
+        };
+    }
+    return transduce(group_by($callback), to_single(), $sequence);
 }
 
 // Terminations

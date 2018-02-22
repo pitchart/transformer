@@ -8,33 +8,33 @@ use Pitchart\Transformer\Transformer;
 use Pitchart\Transformer\Transducer as t;
 use function Pitchart\Transformer\Tests\is_even;
 
-class FilterTest extends TestCase
+class RemoveTest extends TestCase
 {
     public function test_is_a_reducer()
     {
-        $filtering = t\filter(is_even());
+        $removing = t\remove(is_even());
 
-        self::assertInstanceOf(Reducer::class, $filtering(t\to_array()));
+        self::assertInstanceOf(Reducer::class, $removing(t\to_array()));
     }
 
-    public function test_filters_items_with_a_callback()
+    public function test_removes_items_with_a_callback()
     {
         $squared = (new Transformer(range(1, 4)))
-            ->filter(is_even())
+            ->remove(is_even())
             ->toArray();
 
-        $this->assertEquals([2, 4], $squared);
+        $this->assertEquals([1, 3], $squared);
     }
 
     public function test_applies_to_arrays()
     {
-        $evens = t\filter(is_even(), [1, 2, 3, 4]);
-        self::assertEquals([2, 4], $evens);
+        $odd = t\remove(is_even(), [1, 2, 3, 4]);
+        self::assertEquals([1, 3], $odd);
     }
 
     public function test_applies_to_iterators()
     {
-        $evens = t\filter(is_even(), new \ArrayIterator([1, 2, 3, 4]));
-        self::assertEquals([2, 4], $evens);
+        $odd = t\remove(is_even(), new \ArrayIterator([1, 2, 3, 4]));
+        self::assertEquals([1, 3], $odd);
     }
 }
