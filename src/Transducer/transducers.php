@@ -321,11 +321,14 @@ function dedupe($sequence = null)
  *
  * @return \Closure
  */
-function partition(int $size)
+function partition(int $size, $sequence = null)
 {
-    return function (Reducer $reducer) use ($size) {
-        return new Reducer\Partition($reducer, $size);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($size) {
+            return new Reducer\Partition($reducer, $size);
+        };
+    }
+    return transduce(partition($size), to_array(), $sequence);
 }
 
 /**
