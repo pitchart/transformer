@@ -5,7 +5,7 @@ namespace Pitchart\Transformer\Tests\Reducer;
 use Pitchart\Transformer\Transducer as t;
 use PHPUnit\Framework\TestCase;
 use Pitchart\Transformer\Transformer;
-use function Pitchart\Transformer\Tests\square;
+use function Pitchart\Transformer\Tests\Fixtures\square;
 
 class MapTest extends TestCase
 {

@@ -3,7 +3,7 @@
 namespace Pitchart\Transformer\Tests\Reducer;
 
 use PHPUnit\Framework\TestCase;
-use function Pitchart\Transformer\Tests\is_greater_than_three;
+use function Pitchart\Transformer\Tests\Fixtures\is_greater_than_three;
 use Pitchart\Transformer\Transformer;
 use Pitchart\Transformer\Transducer as t;
 

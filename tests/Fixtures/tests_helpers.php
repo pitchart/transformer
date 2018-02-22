@@ -1,6 +1,6 @@
 <?php
 
-namespace Pitchart\Transformer\Tests;
+namespace Pitchart\Transformer\Tests\Fixtures;
 
 function plus_one() {
     return function ($number) {

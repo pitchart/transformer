@@ -5,7 +5,7 @@ namespace Pitchart\Transformer\Tests;
 use Pitchart\Transformer\Transformer;
 use PHPUnit\Framework\TestCase;
 use function Pitchart\Transformer\transform;
-use Pitchart\Transformer\Tests as t;
+use Pitchart\Transformer\Tests\Fixtures as f;
 
 class TransformerTest extends TestCase
 {
@@ -23,7 +23,7 @@ class TransformerTest extends TestCase
     public function test_can_transform_iterables($iterable, $expected)
     {
         $mapped = (new Transformer($iterable))
-            ->map(t\plus_one())->toArray();
+            ->map(f\plus_one())->toArray();
 
         self::assertEquals($expected, $mapped);
     }
@@ -53,7 +53,7 @@ class TransformerTest extends TestCase
     public function test_can_map_items_of_iterable()
     {
         $mapped = (new Transformer(range(1,6)))
-            ->map(t\plus_one())->toArray();
+            ->map(f\plus_one())->toArray();
 
         self::assertEquals([2,3,4,5,6,7], $mapped);
     }
@@ -61,7 +61,7 @@ class TransformerTest extends TestCase
     public function test_can_filter_items_of_iterable()
     {
         $filtered = (new Transformer(range(1,6)))
-            ->filter(t\is_even())->toArray();
+            ->filter(f\is_even())->toArray();
 
         self::assertEquals([2,4,6], $filtered);
     }
@@ -77,7 +77,7 @@ class TransformerTest extends TestCase
     public function test_can_reject_items_of_iterable()
     {
         $rejected = (new Transformer(range(1,6)))
-            ->reject(t\is_even())->toArray();
+            ->reject(f\is_even())->toArray();
 
         self::assertEquals([1,3,5], $rejected);
     }
@@ -85,7 +85,7 @@ class TransformerTest extends TestCase
     public function test_can_get_first_matching_item_of_iterable()
     {
         $first = (new Transformer(range(1,6)))
-            ->first(t\is_greater_than_three())->single();
+            ->first(f\is_greater_than_three())->single();
 
         self::assertEquals(4, $first);
     }
@@ -118,7 +118,7 @@ class TransformerTest extends TestCase
     public function test_can_extract_as_long_as_callback_is_valid()
     {
         $extracted = (new Transformer(range(1, 6)))
-            ->takeWhile(t\is_lower_than_four())->toArray();
+            ->takeWhile(f\is_lower_than_four())->toArray();
 
         self::assertEquals([1,2,3], $extracted);
     }
@@ -142,7 +142,7 @@ class TransformerTest extends TestCase
     public function test_can_drop_items_while_a_predicat_is_true()
     {
         $dropped = (new Transformer(range(1, 6)))
-            ->dropWhile(t\is_lower_than_four())->toArray();
+            ->dropWhile(f\is_lower_than_four())->toArray();
 
         self::assertEquals([4, 5, 6], $dropped);
     }
@@ -183,7 +183,7 @@ class TransformerTest extends TestCase
     public function test_can_partition_a_collection_by_a_callback()
     {
         $partitioned = (new Transformer([0, 2, 3, 1, 4, 5, 6, 8, 9, 7]))
-            ->partitionBy(is_even())->toArray();
+            ->partitionBy(f\is_even())->toArray();
 
         self::assertEquals([[0, 2], [3, 1], [4], [5], [6,8], [9, 7]], $partitioned);
     }
@@ -221,9 +221,9 @@ class TransformerTest extends TestCase
     public function test_can_compose_transformations()
     {
         $first = (new Transformer(range(1,6)))
-            ->map(t\plus_one())
-            ->filter(t\is_even())
-            ->first(t\is_greater_than_three())
+            ->map(f\plus_one())
+            ->filter(f\is_even())
+            ->first(f\is_greater_than_three())
             ->single();
 
         self::assertEquals(4, $first);

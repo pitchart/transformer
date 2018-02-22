@@ -7,7 +7,7 @@ use Pitchart\Transformer\Reducer;
 use Pitchart\Transformer\Reducer\Termination\Operation;
 use PHPUnit\Framework\TestCase;
 use Pitchart\Transformer\Termination;
-use function Pitchart\Transformer\Tests\plus_one;
+use function Pitchart\Transformer\Tests\Fixtures\plus_one;
 use Pitchart\Transformer\Transformer;
 
 class OperationTest extends TestCase
