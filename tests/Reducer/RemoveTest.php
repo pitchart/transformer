@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Pitchart\Transformer\Reducer;
 use Pitchart\Transformer\Transformer;
 use Pitchart\Transformer\Transducer as t;
-use function Pitchart\Transformer\Tests\is_even;
+use function Pitchart\Transformer\Tests\Fixtures\is_even;
 
 class RemoveTest extends TestCase
 {

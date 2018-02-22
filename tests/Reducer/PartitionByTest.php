@@ -5,7 +5,7 @@ namespace Pitchart\Transformer\Tests\Reducer;
 use Pitchart\Transformer\Reducer;
 use Pitchart\Transformer\Reducer\PartitionBy;
 use PHPUnit\Framework\TestCase;
-use function Pitchart\Transformer\Tests\is_even;
+use function Pitchart\Transformer\Tests\Fixtures\is_even;
 use Pitchart\Transformer\Transducer as t;
 use Pitchart\Transformer\Transformer;
 

@@ -5,7 +5,7 @@ namespace Pitchart\Transformer\Tests\Reducer;
 use Pitchart\Transformer\Reducer;
 use Pitchart\Transformer\Reducer\DropWhile;
 use PHPUnit\Framework\TestCase;
-use function Pitchart\Transformer\Tests\is_lower_than_four;
+use function Pitchart\Transformer\Tests\Fixtures\is_lower_than_four;
 use Pitchart\Transformer\Transformer;
 use Pitchart\Transformer\Transducer as t;
 
