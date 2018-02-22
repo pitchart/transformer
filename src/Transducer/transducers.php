@@ -351,11 +351,14 @@ function partition_by(callable $callback, $sequence = null)
  *
  * @return \Closure
  */
-function group_by(callable $callback)
+function group_by(callable $callback, $sequence = null)
 {
-    return function (Reducer $reducer) use ($callback) {
-        return new Reducer\GroupBy($reducer, $callback);
-    };
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\GroupBy($reducer, $callback);
+        };
+    }
+    return transduce(group_by($callback), to_single(), $sequence);
 }
 
 // Terminations
