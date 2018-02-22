@@ -1,6 +1,6 @@
 <?php
 
-namespace Pitchart\Transformer\Tests\Reducer;
+namespace Pitchart\Transformer\Tests\Reducer\Termination;
 
 use Pitchart\Transformer\Exception\InvalidArgument;
 use Pitchart\Transformer\Reducer;
