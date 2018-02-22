@@ -23,6 +23,16 @@ class KeepTest extends TestCase
         self::assertEquals([0, 1, true, false], $kept);
     }
 
+    public function test_is_immutable()
+    {
+        $transformer = (new Transformer([0, 1, null, true, false]));
+        $copy = clone $transformer;
+
+        self::assertEquals([0, 1, true, false], $transformer->keep(function ($item) { return $item; })->toArray());
+        self::assertEquals([0, 1, true, false], $transformer->keep(function ($item) { return $item; })->toArray());
+        self::assertEquals($transformer, $copy);
+    }
+
     public function test_applies_to_arrays()
     {
         $kept = t\keep(function ($item) { return $item; }, [0, 1, null, true, false]);

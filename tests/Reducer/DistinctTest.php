@@ -22,19 +22,32 @@ class DistinctTest extends TestCase
         self::assertEquals([1, 2, 3, 4, 6, 5, 0], $distincts);
     }
 
+    public function test_is_immutable()
+    {
+        $transformer = (new Transformer([1, 2, 3, 2, 4, 6, 5, 1, 0]));
+        $copy = clone $transformer;
+
+        self::assertEquals([1, 2, 3, 4, 6, 5, 0], $transformer->distinct()->toArray());
+        self::assertEquals([1, 2, 3, 4, 6, 5, 0], $transformer->distinct()->toArray());
+        self::assertEquals($transformer, $copy);
+    }
+
     public function test_removes_duplicated_values_with_initial_values()
     {
         $distincts = t\transduce(t\distinct(), t\to_array(), [1, 2, 3, 2, 4, 6, 5, 1, 0], [7, 2]);
         self::assertEquals([7, 2, 1, 2, 3, 4, 6, 5, 0], $distincts);
     }
 
-    public function test_successive_transformations_give_equal_results()
+    public function test_applies_to_arrays()
     {
-        $distincts = (new Transformer([1, 2, 3, 2, 4, 6, 5, 1, 0]))
-            ->distinct();
+        $distincts = t\distinct([1, 2, 3, 2, 4, 6, 5, 1, 0]);
+        self::assertEquals([1, 2, 3, 4, 6, 5, 0], $distincts);
+    }
 
-        self::assertEquals([1, 2, 3, 4, 6, 5, 0], $distincts->toArray());
-        self::assertEquals([1, 2, 3, 4, 6, 5, 0], $distincts->toArray());
+    public function test_applies_to_iterators()
+    {
+        $distincts = t\distinct(new \ArrayIterator([1, 2, 3, 2, 4, 6, 5, 1, 0]));
+        self::assertEquals([1, 2, 3, 4, 6, 5, 0], $distincts);
     }
 
 }

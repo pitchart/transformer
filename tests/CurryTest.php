@@ -37,4 +37,5 @@ class CurryTest extends TestCase
         $curried = t\curry('implode', '');
         self::assertEquals('abc', $curried(['a', 'b', 'c']));
     }
+
 }

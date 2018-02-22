@@ -23,6 +23,16 @@ class DedupeTest extends TestCase
         self::assertEquals([1, 2, 3, 2, 4, 6, 5, 1, 0, 1], $deduped);
     }
 
+    public function test_is_immutable()
+    {
+        $transformer = (new Transformer([1, 2, 3, 2, 2, 4, 6, 5, 1, 0, 0, 1]));
+        $copy = clone $transformer;
+
+        self::assertEquals([1, 2, 3, 2, 4, 6, 5, 1, 0, 1], $transformer->dedupe()->toArray());
+        self::assertEquals([1, 2, 3, 2, 4, 6, 5, 1, 0, 1], $transformer->dedupe()->toArray());
+        self::assertEquals($transformer, $copy);
+    }
+
     public function test_applies_to_arrays()
     {
         $deduped = t\dedupe([1, 2, 3, 2, 2, 4, 6, 5, 1, 0, 0, 1]);

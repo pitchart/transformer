@@ -39,6 +39,23 @@ class GroupByTest extends TestCase
      *
      * @dataProvider groupableDataProvider
      */
+    public function test_is_immutable($data, $callable, $expected)
+    {
+        $transformer = (new Transformer($data));
+        $copy = clone $transformer;
+
+        self::assertEquals($expected, $transformer->groupBy($callable)->single());
+        self::assertEquals($expected, $transformer->groupBy($callable)->single());
+        self::assertEquals($transformer, $copy);
+    }
+
+    /**
+     * @param array $data
+     * @param \Closure $callable
+     * @param array $expected
+     *
+     * @dataProvider groupableDataProvider
+     */
     public function test_applies_to_arrays($data, $callable, $expected)
     {
         $grouped = t\group_by($callable, $data);

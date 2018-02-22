@@ -26,6 +26,16 @@ class FilterTest extends TestCase
         $this->assertEquals([2, 4], $squared);
     }
 
+    public function test_is_immutable()
+    {
+        $transformer = (new Transformer([1, 2, 3, 4, 5, 6]));
+        $copy = clone $transformer;
+
+        self::assertEquals([2, 4, 6], $transformer->filter(is_even())->toArray());
+        self::assertEquals([2, 4, 6], $transformer->filter(is_even())->toArray());
+        self::assertEquals($transformer, $copy);
+    }
+
     public function test_applies_to_arrays()
     {
         $evens = t\filter(is_even(), [1, 2, 3, 4]);

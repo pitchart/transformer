@@ -26,6 +26,17 @@ class RemoveTest extends TestCase
         $this->assertEquals([1, 3], $squared);
     }
 
+    public function test_is_immutable()
+    {
+        $transformer = (new Transformer(range(1, 4)));
+        $copy = clone $transformer;
+        $expected = [1, 3];
+
+        self::assertEquals($expected, $transformer->remove(is_even())->toArray());
+        self::assertEquals($expected, $transformer->remove(is_even())->toArray());
+        self::assertEquals($transformer, $copy);
+    }
+
     public function test_applies_to_arrays()
     {
         $odd = t\remove(is_even(), [1, 2, 3, 4]);
