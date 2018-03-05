@@ -23,7 +23,10 @@ class ToString implements Termination
 
     public function step($result, $current)
     {
-        return $result.$this->glue.$current;
+        if ((string) $result) {
+            return $result.$this->glue.$current;
+        }
+        return $current;
     }
 
     public function complete($result)
