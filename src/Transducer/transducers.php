@@ -2,6 +2,7 @@
 
 namespace Pitchart\Transformer\Transducer;
 
+use function Pitchart\Transformer\comparator;
 use function Pitchart\Transformer\compose;
 use Pitchart\Transformer\Exception\InvalidArgument;
 use Pitchart\Transformer\Reduced;
@@ -54,7 +55,7 @@ function map(callable $callback, $sequence = null)
         };
     }
     if (is_array($sequence)) {
-        return array_map($callback, $sequence);
+        return \array_map($callback, $sequence);
     }
     return transduce(map($callback), to_array(), $sequence);
 }
@@ -74,7 +75,7 @@ function filter(callable $callback, $sequence = null)
     }
 
     if (is_array($sequence)) {
-        return array_values(array_filter($sequence, $callback));
+        return \array_values(\array_filter($sequence, $callback));
     }
     return transduce(filter($callback), to_array(), $sequence);
 }
@@ -93,7 +94,7 @@ function keep(callable $callback, $sequence = null)
         };
     }
     if (is_array($sequence)) {
-        return array_values(array_filter($sequence, function ($item) use ($callback) {
+        return \array_values(\array_filter($sequence, function ($item) use ($callback) {
             return $callback($item) !== null;
         }));
     }
@@ -102,8 +103,9 @@ function keep(callable $callback, $sequence = null)
 
 /**
  * @param callable $callback
+ * @param iterable|null $sequence
  *
- * @return \Closure
+ * @return array|\Closure|mixed
  */
 function remove(callable $callback, $sequence = null)
 {
@@ -115,7 +117,7 @@ function remove(callable $callback, $sequence = null)
         };
     }
     if (is_array($sequence)) {
-        return array_values(array_filter($sequence, function ($item) use ($callback) {
+        return \array_values(\array_filter($sequence, function ($item) use ($callback) {
             return !$callback($item);
         }));
     }
@@ -124,8 +126,9 @@ function remove(callable $callback, $sequence = null)
 
 /**
  * @param callable $callback
+ * @param iterable|null $sequence
  *
- * @return \Closure
+ * @return \Closure|mixed
  */
 function first(callable $callback, $sequence = null)
 {
@@ -136,7 +139,7 @@ function first(callable $callback, $sequence = null)
     }
     if (is_array($sequence)) {
         $filtered = filter($callback, $sequence);
-        return array_shift($filtered);
+        return \array_shift($filtered);
     }
     return transduce(first($callback), to_single(), $sequence);
 }
@@ -158,7 +161,7 @@ function cat($sequence = null)
 
 /**
  * @param callable $callback
- * @param null $sequence
+ * @param iterable|null $sequence
  *
  * @return mixed|\Pitchart\Transformer\Composition
  */
@@ -359,6 +362,46 @@ function group_by(callable $callback, $sequence = null)
         };
     }
     return transduce(group_by($callback), to_single(), $sequence);
+}
+
+/**
+ * @param callable $callback
+ * @param iterable|null $sequence
+ *
+ * @return array|\Closure|mixed|null
+ */
+function sort(callable $callback, $sequence = null)
+{
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\Sort($reducer, $callback);
+        };
+    }
+    if (is_array($sequence)) {
+        \usort($sequence, $callback);
+        return $sequence;
+    }
+    return transduce(sort($callback), to_array(), $sequence);
+}
+
+/**
+ * @param callable $callback
+ * @param iterable|null $sequence
+ *
+ * @return array|\Closure|mixed|null
+ */
+function sort_by(callable $callback, $sequence = null)
+{
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\SortBy($reducer, $callback);
+        };
+    }
+    if (is_array($sequence)) {
+        \usort($sequence, comparator($callback));
+        return $sequence;
+    }
+    return transduce(sort_by($callback), to_array(), $sequence);
 }
 
 // Terminations

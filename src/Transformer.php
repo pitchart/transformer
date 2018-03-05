@@ -271,6 +271,26 @@ class Transformer
     }
 
     /**
+     * @param callable $callback
+     *
+     * @return Transformer
+     */
+    public function sort(callable $callback)
+    {
+        return $this->appendComposition(t\sort($callback));
+    }
+
+    /**
+     * @param callable $callback
+     *
+     * @return Transformer
+     */
+    public function sortBy(callable $callback)
+    {
+        return $this->appendComposition(t\sort_by($callback));
+    }
+
+    /**
      * @param string $glue
      *
      * @return string
