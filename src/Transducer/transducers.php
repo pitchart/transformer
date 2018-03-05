@@ -103,8 +103,9 @@ function keep(callable $callback, $sequence = null)
 
 /**
  * @param callable $callback
+ * @param iterable|null $sequence
  *
- * @return \Closure
+ * @return array|\Closure|mixed
  */
 function remove(callable $callback, $sequence = null)
 {
@@ -125,8 +126,9 @@ function remove(callable $callback, $sequence = null)
 
 /**
  * @param callable $callback
+ * @param iterable|null $sequence
  *
- * @return \Closure
+ * @return \Closure|mixed
  */
 function first(callable $callback, $sequence = null)
 {
@@ -159,7 +161,7 @@ function cat($sequence = null)
 
 /**
  * @param callable $callback
- * @param null $sequence
+ * @param iterable|null $sequence
  *
  * @return mixed|\Pitchart\Transformer\Composition
  */
@@ -364,7 +366,7 @@ function group_by(callable $callback, $sequence = null)
 
 /**
  * @param callable $callback
- * @param null $sequence
+ * @param iterable|null $sequence
  *
  * @return array|\Closure|mixed|null
  */
@@ -384,7 +386,7 @@ function sort(callable $callback, $sequence = null)
 
 /**
  * @param callable $callback
- * @param null $sequence
+ * @param iterable|null $sequence
  *
  * @return array|\Closure|mixed|null
  */
