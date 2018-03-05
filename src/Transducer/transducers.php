@@ -55,7 +55,7 @@ function map(callable $callback, $sequence = null)
         };
     }
     if (is_array($sequence)) {
-        return array_map($callback, $sequence);
+        return \array_map($callback, $sequence);
     }
     return transduce(map($callback), to_array(), $sequence);
 }
@@ -75,7 +75,7 @@ function filter(callable $callback, $sequence = null)
     }
 
     if (is_array($sequence)) {
-        return array_values(array_filter($sequence, $callback));
+        return \array_values(\array_filter($sequence, $callback));
     }
     return transduce(filter($callback), to_array(), $sequence);
 }
@@ -94,7 +94,7 @@ function keep(callable $callback, $sequence = null)
         };
     }
     if (is_array($sequence)) {
-        return array_values(array_filter($sequence, function ($item) use ($callback) {
+        return \array_values(\array_filter($sequence, function ($item) use ($callback) {
             return $callback($item) !== null;
         }));
     }
@@ -116,7 +116,7 @@ function remove(callable $callback, $sequence = null)
         };
     }
     if (is_array($sequence)) {
-        return array_values(array_filter($sequence, function ($item) use ($callback) {
+        return \array_values(\array_filter($sequence, function ($item) use ($callback) {
             return !$callback($item);
         }));
     }
@@ -137,7 +137,7 @@ function first(callable $callback, $sequence = null)
     }
     if (is_array($sequence)) {
         $filtered = filter($callback, $sequence);
-        return array_shift($filtered);
+        return \array_shift($filtered);
     }
     return transduce(first($callback), to_single(), $sequence);
 }
