@@ -361,6 +361,26 @@ function group_by(callable $callback, $sequence = null)
     return transduce(group_by($callback), to_single(), $sequence);
 }
 
+/**
+ * @param callable $callback
+ * @param null $sequence
+ *
+ * @return array|\Closure|mixed|null
+ */
+function sort(callable $callback, $sequence = null)
+{
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\Sort($reducer, $callback);
+        };
+    }
+    if (is_array($sequence)) {
+        \usort($sequence, $callback);
+        return $sequence;
+    }
+    return transduce(sort($callback), to_array(), $sequence);
+}
+
 // Terminations
 
 /**
