@@ -2,6 +2,7 @@
 
 namespace Pitchart\Transformer\Transducer;
 
+use function Pitchart\Transformer\comparator;
 use function Pitchart\Transformer\compose;
 use Pitchart\Transformer\Exception\InvalidArgument;
 use Pitchart\Transformer\Reduced;
@@ -379,6 +380,26 @@ function sort(callable $callback, $sequence = null)
         return $sequence;
     }
     return transduce(sort($callback), to_array(), $sequence);
+}
+
+/**
+ * @param callable $callback
+ * @param null $sequence
+ *
+ * @return array|\Closure|mixed|null
+ */
+function sort_by(callable $callback, $sequence = null)
+{
+    if ($sequence === null) {
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\SortBy($reducer, $callback);
+        };
+    }
+    if (is_array($sequence)) {
+        \usort($sequence, comparator($callback));
+        return $sequence;
+    }
+    return transduce(sort_by($callback), to_array(), $sequence);
 }
 
 // Terminations
