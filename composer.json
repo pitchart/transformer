@@ -34,5 +34,8 @@
         "files": [
             "tests/Fixtures/tests_helpers.php"
         ]
+    },
+    "config" : {
+        "sort-packages": true
     }
 }
