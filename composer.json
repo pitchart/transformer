@@ -1,5 +1,7 @@
 {
     "name": "pitchart/transformer",
+    "description": "A transducers implementation in PHP, with OOP powers",
+    "keywords": ["transducer", "functional programming", "iterable", "collection"],
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -29,7 +31,7 @@
             "Pitchart\\Transformer\\Tests\\": "tests/"
         },
         "files": [
-            "tests/tests_helpers.php"
+            "tests/Fixtures/tests_helpers.php"
         ]
     }
 }
