@@ -18,6 +18,16 @@ function transform($iterable, Composition $composition = null, Termination $term
 }
 
 /**
+ * Alias for transform()
+ *
+ * @see transform()
+ */
+function from($iterable, Composition $composition = null, Termination $termination = null, $initial = null)
+{
+    return transform($iterable, $composition, $termination, $initial);
+}
+
+/**
  * Creates a composition of functions
  *
  * @param \callable[] ...$callbacks
