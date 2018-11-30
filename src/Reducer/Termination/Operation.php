@@ -1,11 +1,17 @@
 <?php
 
+/*
+ * This file is part of the pitchart/transformer library.
+ * (c) Julien VITTE <vitte.julien@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.md.
+ */
+
 namespace Pitchart\Transformer\Reducer\Termination;
 
-
 use Pitchart\Transformer\Exception\InvalidArgument;
-use function Pitchart\Transformer\identity;
 use Pitchart\Transformer\Termination;
+use function Pitchart\Transformer\identity;
 
 class Operation implements Termination
 {
@@ -26,11 +32,21 @@ class Operation implements Termination
     {
         if (self::$operators === null) {
             self::$operators = [
-                '+' => function($result, $current) { return $result+$current; },
-                '-' => function($result, $current) { return $result-$current; },
-                '*' => function($result, $current) { return $result*$current; },
-                '/' => function($result, $current) { return $result/$current; },
-                '.' => function($result, $current) { return $result.$current; },
+                '+' => function ($result, $current) {
+                    return $result+$current;
+                },
+                '-' => function ($result, $current) {
+                    return $result-$current;
+                },
+                '*' => function ($result, $current) {
+                    return $result*$current;
+                },
+                '/' => function ($result, $current) {
+                    return $result/$current;
+                },
+                '.' => function ($result, $current) {
+                    return $result.$current;
+                },
             ];
         }
 
@@ -40,7 +56,6 @@ class Operation implements Termination
 
         $this->operation = $operation;
     }
-
 
     public function init()
     {
@@ -52,6 +67,7 @@ class Operation implements Termination
             case '/':
                 return 1;
         }
+
         return null;
     }
 
@@ -64,5 +80,4 @@ class Operation implements Termination
     {
         return $result;
     }
-
 }

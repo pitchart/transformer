@@ -1,13 +1,23 @@
 <?php
 
+/*
+ * This file is part of the pitchart/transformer library.
+ * (c) Julien VITTE <vitte.julien@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.md.
+ */
+
 namespace Pitchart\Transformer\Tests;
 
-use Pitchart\Transformer\Transformer;
 use PHPUnit\Framework\TestCase;
-use function Pitchart\Transformer\transform;
 use Pitchart\Transformer\Tests\Fixtures as f;
+use Pitchart\Transformer\Transformer;
+use function Pitchart\Transformer\transform;
 
-class TransformerTest extends TestCase
+/**
+ * @internal
+ */
+final class TransformerTest extends TestCase
 {
     public function test_transform_helper_instantiate_a_transformer()
     {
@@ -52,7 +62,7 @@ class TransformerTest extends TestCase
 
     public function test_can_map_items_of_iterable()
     {
-        $mapped = (new Transformer(range(1,6)))
+        $mapped = (new Transformer(range(1, 6)))
             ->map(f\plus_one())->toArray();
 
         self::assertEquals([2,3,4,5,6,7], $mapped);
@@ -60,7 +70,7 @@ class TransformerTest extends TestCase
 
     public function test_can_filter_items_of_iterable()
     {
-        $filtered = (new Transformer(range(1,6)))
+        $filtered = (new Transformer(range(1, 6)))
             ->filter(f\is_even())->toArray();
 
         self::assertEquals([2,4,6], $filtered);
@@ -69,14 +79,16 @@ class TransformerTest extends TestCase
     public function test_can_keep_items_for_which_a_callable_does_not_return_null()
     {
         $kept = (new Transformer([0, 1, null, true, false]))
-            ->keep(function ($item) { return $item; })->toArray();
+            ->keep(function ($item) {
+                return $item;
+            })->toArray();
 
         self::assertEquals([0, 1, true, false], $kept);
     }
 
     public function test_can_reject_items_of_iterable()
     {
-        $rejected = (new Transformer(range(1,6)))
+        $rejected = (new Transformer(range(1, 6)))
             ->reject(f\is_even())->toArray();
 
         self::assertEquals([1,3,5], $rejected);
@@ -84,7 +96,7 @@ class TransformerTest extends TestCase
 
     public function test_can_get_first_matching_item_of_iterable()
     {
-        $first = (new Transformer(range(1,6)))
+        $first = (new Transformer(range(1, 6)))
             ->first(f\is_greater_than_three())->single();
 
         self::assertEquals(4, $first);
@@ -149,7 +161,7 @@ class TransformerTest extends TestCase
 
     public function test_can_paginate_over_items()
     {
-        $paginated = (new Transformer(range(1,6)))
+        $paginated = (new Transformer(range(1, 6)))
             ->paginate(2, 2)
             ->toArray();
 
@@ -174,7 +186,7 @@ class TransformerTest extends TestCase
 
     public function test_can_partition_a_collection()
     {
-        $partitioned = (new Transformer(range(1,9)))
+        $partitioned = (new Transformer(range(1, 9)))
             ->partition(3)->toArray();
 
         self::assertEquals([[1, 2, 3], [4, 5, 6], [7, 8, 9]], $partitioned);
@@ -198,7 +210,9 @@ class TransformerTest extends TestCase
             ['group' => 'fizz', 'value' => 'foo'],
             ['group' => 'bar', 'value' => 'foo'],
         ]))
-            ->groupBy(function ($item) {return $item['group'];})
+            ->groupBy(function ($item) {
+                return $item['group'];
+            })
             ->single()
         ;
 
@@ -217,10 +231,9 @@ class TransformerTest extends TestCase
         self::assertEquals([1, 2, 'Fizz', 4, 'Buzz', 6], $replaced);
     }
 
-
     public function test_can_compose_transformations()
     {
-        $first = (new Transformer(range(1,6)))
+        $first = (new Transformer(range(1, 6)))
             ->map(f\plus_one())
             ->filter(f\is_even())
             ->first(f\is_greater_than_three())
@@ -228,7 +241,6 @@ class TransformerTest extends TestCase
 
         self::assertEquals(4, $first);
     }
-
 
     public function iterableProvider()
     {
@@ -238,5 +250,4 @@ class TransformerTest extends TestCase
             'array access' => [new \ArrayObject(range(1, 6)), range(2, 7)],
         ];
     }
-
 }

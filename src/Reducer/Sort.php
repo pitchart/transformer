@@ -1,7 +1,13 @@
 <?php
 
-namespace Pitchart\Transformer\Reducer;
+/*
+ * This file is part of the pitchart/transformer library.
+ * (c) Julien VITTE <vitte.julien@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.md.
+ */
 
+namespace Pitchart\Transformer\Reducer;
 
 use Pitchart\Transformer\Reduced;
 use Pitchart\Transformer\Reducer;
@@ -23,6 +29,7 @@ class Sort implements Reducer
     public function step($result, $current)
     {
         $this->store[] = $current;
+
         return $result;
     }
 

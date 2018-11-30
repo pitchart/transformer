@@ -1,15 +1,25 @@
 <?php
 
+/*
+ * This file is part of the pitchart/transformer library.
+ * (c) Julien VITTE <vitte.julien@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.md.
+ */
+
 namespace Pitchart\Transformer\Tests\Reducer;
 
+use PHPUnit\Framework\TestCase;
 use Pitchart\Transformer\Reducer;
 use Pitchart\Transformer\Reducer\PartitionBy;
-use PHPUnit\Framework\TestCase;
-use function Pitchart\Transformer\Tests\Fixtures\is_even;
 use Pitchart\Transformer\Transducer as t;
 use Pitchart\Transformer\Transformer;
+use function Pitchart\Transformer\Tests\Fixtures\is_even;
 
-class PartitionByTest extends TestCase
+/**
+ * @internal
+ */
+final class PartitionByTest extends TestCase
 {
     public function test_is_a_reducer()
     {

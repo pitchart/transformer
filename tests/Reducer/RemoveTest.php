@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of the pitchart/transformer library.
+ * (c) Julien VITTE <vitte.julien@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.md.
+ */
+
 namespace Pitchart\Transformer\Tests\Reducer;
 
 use PHPUnit\Framework\TestCase;
 use Pitchart\Transformer\Reducer;
-use Pitchart\Transformer\Transformer;
 use Pitchart\Transformer\Transducer as t;
+use Pitchart\Transformer\Transformer;
 use function Pitchart\Transformer\Tests\Fixtures\is_even;
 
-class RemoveTest extends TestCase
+/**
+ * @internal
+ */
+final class RemoveTest extends TestCase
 {
     public function test_is_a_reducer()
     {
@@ -23,7 +33,7 @@ class RemoveTest extends TestCase
             ->remove(is_even())
             ->toArray();
 
-        $this->assertEquals([1, 3], $squared);
+        self::assertEquals([1, 3], $squared);
     }
 
     public function test_is_immutable()

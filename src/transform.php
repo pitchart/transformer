@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the pitchart/transformer library.
+ * (c) Julien VITTE <vitte.julien@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.md.
+ */
+
 namespace Pitchart\Transformer;
 
 /**
@@ -21,6 +28,8 @@ function transform($iterable, Composition $composition = null, Termination $term
  * Alias for transform()
  *
  * @see transform()
+ * @param mixed $iterable
+ * @param null|mixed $initial
  */
 function from($iterable, Composition $composition = null, Termination $termination = null, $initial = null)
 {
@@ -75,7 +84,10 @@ function comparator(callable $callback)
     return function ($first, $second) use ($callback) {
         $first = ($callback)($first);
         $second = ($callback)($second);
-        if ($first == $second) return 0;
+        if ($first == $second) {
+            return 0;
+        }
+
         return $first < $second ? -1 : 1;
     };
 }

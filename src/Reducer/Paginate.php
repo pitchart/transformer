@@ -1,7 +1,13 @@
 <?php
 
-namespace Pitchart\Transformer\Reducer;
+/*
+ * This file is part of the pitchart/transformer library.
+ * (c) Julien VITTE <vitte.julien@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.md.
+ */
 
+namespace Pitchart\Transformer\Reducer;
 
 use Pitchart\Transformer\Reducer;
 
@@ -41,10 +47,10 @@ class Paginate implements Reducer
         $this->numberOfItems = $numberOfItems;
     }
 
-
     public function init()
     {
         $this->counter = 0;
+
         return $this->next->init();
     }
 
@@ -53,18 +59,18 @@ class Paginate implements Reducer
         if ($this->counter >= ($this->currentPage -1) * $this->numberOfItems
         && $this->counter < ($this->currentPage) * $this->numberOfItems) {
             $return = $this->next->step($result, $current);
-        }
-        else {
+        } else {
             $return = $result;
         }
         $this->counter++;
+
         return $return;
     }
 
     public function complete($result)
     {
         $this->counter = 0;
+
         return $this->next->complete($result);
     }
-
 }

@@ -1,7 +1,13 @@
 <?php
 
-namespace Pitchart\Transformer\Reducer;
+/*
+ * This file is part of the pitchart/transformer library.
+ * (c) Julien VITTE <vitte.julien@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.md.
+ */
 
+namespace Pitchart\Transformer\Reducer;
 
 use Pitchart\Transformer\Reducer;
 
@@ -15,7 +21,7 @@ class Dedupe implements Reducer
     /**
      * @var null|mixed
      */
-    private $last = null;
+    private $last;
 
     /**
      * @var bool
@@ -36,8 +42,7 @@ class Dedupe implements Reducer
     {
         if (!$this->started || $current !== $this->last) {
             $return = $this->next->step($result, $current);
-        }
-        else {
+        } else {
             $return = $result;
         }
         $this->started = true;
@@ -50,8 +55,7 @@ class Dedupe implements Reducer
     {
         $this->last = null;
         $this->started  = false;
+
         return $this->next->complete($result);
     }
-
-
 }

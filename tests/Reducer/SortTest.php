@@ -1,18 +1,30 @@
 <?php
 
+/*
+ * This file is part of the pitchart/transformer library.
+ * (c) Julien VITTE <vitte.julien@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.md.
+ */
+
 namespace Pitchart\Transformer\Tests\Reducer;
 
+use PHPUnit\Framework\TestCase;
 use Pitchart\Transformer\Reducer;
 use Pitchart\Transformer\Reducer\Sort;
 use Pitchart\Transformer\Transducer as t;
-use PHPUnit\Framework\TestCase;
 use Pitchart\Transformer\Transformer;
 
-class SortTest extends TestCase
+/**
+ * @internal
+ */
+final class SortTest extends TestCase
 {
     public function test_is_a_reducer()
     {
-        self::assertInstanceOf(Reducer::class, t\sort(function ($item) {return $item['group'];})(t\to_array()));
+        self::assertInstanceOf(Reducer::class, t\sort(function ($item) {
+            return $item['group'];
+        })(t\to_array()));
     }
 
     /**
@@ -90,7 +102,10 @@ class SortTest extends TestCase
                 function ($a, $b) {
                     $aKey = sprintf('%s.%s', $a['group'], $a['value']);
                     $bKey = sprintf('%s.%s', $b['group'], $b['value']);
-                    if ($aKey == $bKey) return 0;
+                    if ($aKey == $bKey) {
+                        return 0;
+                    }
+
                     return $aKey < $bKey ? -1 : 1;
                 },
                 [

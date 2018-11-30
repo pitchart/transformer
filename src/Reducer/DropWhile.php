@@ -1,10 +1,15 @@
 <?php
 
+/*
+ * This file is part of the pitchart/transformer library.
+ * (c) Julien VITTE <vitte.julien@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.md.
+ */
+
 namespace Pitchart\Transformer\Reducer;
 
-
 use Pitchart\Transformer\Reducer;
-
 use Pitchart\Transformer\Reducer\Traits\HasCallback;
 
 class DropWhile implements Reducer
@@ -16,6 +21,7 @@ class DropWhile implements Reducer
     public function init()
     {
         $this->stopDropping = false;
+
         return $this->next->init();
     }
 
@@ -27,6 +33,7 @@ class DropWhile implements Reducer
 
         if (!($this->callback)($current)) {
             $this->stopDropping = true;
+
             return $this->next->step($result, $current);
         }
 
@@ -37,5 +44,4 @@ class DropWhile implements Reducer
     {
         return $this->next->complete($result);
     }
-
 }

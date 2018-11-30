@@ -1,18 +1,30 @@
 <?php
 
+/*
+ * This file is part of the pitchart/transformer library.
+ * (c) Julien VITTE <vitte.julien@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.md.
+ */
+
 namespace Pitchart\Transformer\Tests\Reducer;
 
+use PHPUnit\Framework\TestCase;
 use Pitchart\Transformer\Reducer;
 use Pitchart\Transformer\Reducer\GroupBy;
-use PHPUnit\Framework\TestCase;
 use Pitchart\Transformer\Transducer as t;
 use Pitchart\Transformer\Transformer;
 
-class GroupByTest extends TestCase
+/**
+ * @internal
+ */
+final class GroupByTest extends TestCase
 {
     public function test_is_a_reducer()
     {
-        self::assertInstanceOf(Reducer::class, t\group_by(function ($item) {return $item['group'];})(t\to_single()));
+        self::assertInstanceOf(Reducer::class, t\group_by(function ($item) {
+            return $item['group'];
+        })(t\to_single()));
     }
 
     /**
@@ -87,7 +99,9 @@ class GroupByTest extends TestCase
                     ['group' => 'fizz', 'value' => 'foo'],
                     ['group' => 'bar', 'value' => 'foo'],
                 ],
-                function ($item) {return $item['group'];},
+                function ($item) {
+                    return $item['group'];
+                },
                 [
                     'foo' => [['group' => 'foo', 'value' => 'bar'], ['group' => 'foo', 'value' => 'test'],],
                     'bar' => [['group' => 'bar', 'value' => 'foo'], ['group' => 'bar', 'value' => 'foo'],],

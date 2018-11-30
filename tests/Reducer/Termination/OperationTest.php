@@ -1,16 +1,26 @@
 <?php
 
+/*
+ * This file is part of the pitchart/transformer library.
+ * (c) Julien VITTE <vitte.julien@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.md.
+ */
+
 namespace Pitchart\Transformer\Tests\Reducer\Termination;
 
+use PHPUnit\Framework\TestCase;
 use Pitchart\Transformer\Exception\InvalidArgument;
 use Pitchart\Transformer\Reducer;
 use Pitchart\Transformer\Reducer\Termination\Operation;
-use PHPUnit\Framework\TestCase;
 use Pitchart\Transformer\Termination;
-use function Pitchart\Transformer\Tests\Fixtures\plus_one;
 use Pitchart\Transformer\Transformer;
+use function Pitchart\Transformer\Tests\Fixtures\plus_one;
 
-class OperationTest extends TestCase
+/**
+ * @internal
+ */
+final class OperationTest extends TestCase
 {
     public function test_is_a_reducer()
     {
@@ -124,5 +134,4 @@ class OperationTest extends TestCase
 
         self::assertEquals('abc123456', $concat);
     }
-
 }

@@ -1,13 +1,20 @@
 <?php
 
+/*
+ * This file is part of the pitchart/transformer library.
+ * (c) Julien VITTE <vitte.julien@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.md.
+ */
+
 namespace Pitchart\Transformer\Transducer;
 
-use function Pitchart\Transformer\comparator;
-use function Pitchart\Transformer\compose;
 use Pitchart\Transformer\Exception\InvalidArgument;
 use Pitchart\Transformer\Reduced;
 use Pitchart\Transformer\Reducer;
 use Pitchart\Transformer\Termination;
+use function Pitchart\Transformer\comparator;
+use function Pitchart\Transformer\compose;
 
 /**
  * @param callable $transducer
@@ -32,6 +39,7 @@ function transduce(callable $transducer, Termination $reducer, $iterable, $initi
         //early termination
         if ($accumulator instanceof Reduced) {
             $accumulator = $accumulator->value();
+
             break;
         }
     }
@@ -43,7 +51,7 @@ function transduce(callable $transducer, Termination $reducer, $iterable, $initi
  * Creates a transducer function for mapping
  *
  * @param callable $callback
- * @param iterable|null $sequence
+ * @param null|iterable $sequence
  *
  * @return array|\Closure|mixed
  */
@@ -57,12 +65,13 @@ function map(callable $callback, $sequence = null)
     if (is_array($sequence)) {
         return \array_map($callback, $sequence);
     }
+
     return transduce(map($callback), to_array(), $sequence);
 }
 
 /**
  * @param callable $callback
- * @param iterable|null $sequence
+ * @param null|iterable $sequence
  *
  * @return array|\Closure
  */
@@ -77,12 +86,13 @@ function filter(callable $callback, $sequence = null)
     if (is_array($sequence)) {
         return \array_values(\array_filter($sequence, $callback));
     }
+
     return transduce(filter($callback), to_array(), $sequence);
 }
 
 /**
  * @param callable $callback
- * @param iterable|null $sequence
+ * @param null|iterable $sequence
  *
  * @return array|\Closure
  */
@@ -98,12 +108,13 @@ function keep(callable $callback, $sequence = null)
             return $callback($item) !== null;
         }));
     }
+
     return transduce(keep($callback), to_array(), $sequence);
 }
 
 /**
  * @param callable $callback
- * @param iterable|null $sequence
+ * @param null|iterable $sequence
  *
  * @return array|\Closure|mixed
  */
@@ -121,12 +132,13 @@ function remove(callable $callback, $sequence = null)
             return !$callback($item);
         }));
     }
+
     return transduce(remove($callback), to_array(), $sequence);
 }
 
 /**
  * @param callable $callback
- * @param iterable|null $sequence
+ * @param null|iterable $sequence
  *
  * @return \Closure|mixed
  */
@@ -139,15 +151,17 @@ function first(callable $callback, $sequence = null)
     }
     if (is_array($sequence)) {
         $filtered = filter($callback, $sequence);
+
         return \array_shift($filtered);
     }
+
     return transduce(first($callback), to_single(), $sequence);
 }
 
 /**
- * @param iterable|null $sequence
+ * @param null|iterable $sequence
  *
- * @return \Closure|array
+ * @return array|\Closure
  */
 function cat($sequence = null)
 {
@@ -156,12 +170,13 @@ function cat($sequence = null)
             return new Reducer\Cat($reducer);
         };
     }
+
     return transduce(cat(), to_array(), $sequence);
 }
 
 /**
  * @param callable $callback
- * @param iterable|null $sequence
+ * @param null|iterable $sequence
  *
  * @return mixed|\Pitchart\Transformer\Composition
  */
@@ -170,10 +185,12 @@ function mapcat(callable $callback, $sequence = null)
     if ($sequence === null) {
         return compose(map($callback), cat());
     }
+
     return transduce(compose(map($callback), cat()), to_array(), $sequence);
 }
 
 /**
+ * @param null|mixed $sequence
  * @return \Closure
  */
 function flatten($sequence = null)
@@ -183,11 +200,13 @@ function flatten($sequence = null)
             return new Reducer\Flatten($reducer);
         };
     }
+
     return transduce(flatten(), to_array(), $sequence);
 }
 
 /**
  * @param int $number
+ * @param null|mixed $sequence
  *
  * @return \Closure
  */
@@ -198,11 +217,13 @@ function take(int $number, $sequence = null)
             return new Reducer\Take($reducer, $number);
         };
     }
+
     return transduce(take($number), to_array(), $sequence);
 }
 
 /**
  * @param callable $callback
+ * @param null|mixed $sequence
  *
  * @return \Closure
  */
@@ -213,11 +234,13 @@ function take_while(callable $callback, $sequence = null)
             return new Reducer\TakeWhile($reducer, $callback);
         };
     }
+
     return transduce(take_while($callback), to_array(), $sequence);
 }
 
 /**
  * @param int $frequency
+ * @param null|mixed $sequence
  *
  * @return \Closure
  */
@@ -228,11 +251,13 @@ function take_nth(int $frequency, $sequence = null)
             return new Reducer\TakeNth($reducer, $frequency);
         };
     }
+
     return transduce(take_nth($frequency), to_array(), $sequence);
 }
 
 /**
  * @param int $number
+ * @param null|mixed $sequence
  *
  * @return \Closure
  */
@@ -243,11 +268,13 @@ function drop(int $number, $sequence = null)
             return new Reducer\Drop($reducer, $number);
         };
     }
+
     return transduce(drop($number), to_array(), $sequence);
 }
 
 /**
  * @param callable $callback
+ * @param null|mixed $sequence
  *
  * @return \Closure
  */
@@ -258,15 +285,16 @@ function drop_while(callable $callback, $sequence = null)
             return new Reducer\DropWhile($reducer, $callback);
         };
     }
+
     return transduce(drop_while($callback), to_array(), $sequence);
 }
 
 /**
  * @param int $page
  * @param int $numberOfItems
- * @param iterable|null $sequence
+ * @param null|iterable $sequence
  *
- * @return \Closure|array
+ * @return array|\Closure
  */
 function paginate($page = 1, $numberOfItems = 10, $sequence = null)
 {
@@ -275,11 +303,13 @@ function paginate($page = 1, $numberOfItems = 10, $sequence = null)
             return new Reducer\Paginate($reducer, $page, $numberOfItems);
         };
     }
+
     return transduce(paginate($page, $numberOfItems), to_array(), $sequence);
 }
 
 /**
  * @param array $map
+ * @param null|mixed $sequence
  *
  * @return \Closure
  */
@@ -290,10 +320,12 @@ function replace(array $map, $sequence = null)
             return new Reducer\Replace($reducer, $map);
         };
     }
+
     return transduce(replace($map), to_array(), $sequence);
 }
 
 /**
+ * @param null|mixed $sequence
  * @return \Closure
  */
 function distinct($sequence = null)
@@ -303,10 +335,12 @@ function distinct($sequence = null)
             return new Reducer\Distinct($reducer);
         };
     }
+
     return transduce(distinct(), to_array(), $sequence);
 }
 
 /**
+ * @param null|mixed $sequence
  * @return \Closure
  */
 function dedupe($sequence = null)
@@ -316,11 +350,13 @@ function dedupe($sequence = null)
             return new Reducer\Dedupe($reducer);
         };
     }
-    return transduce(dedupe(), to_array(),  $sequence);
+
+    return transduce(dedupe(), to_array(), $sequence);
 }
 
 /**
  * @param int $size
+ * @param null|mixed $sequence
  *
  * @return \Closure
  */
@@ -331,11 +367,13 @@ function partition(int $size, $sequence = null)
             return new Reducer\Partition($reducer, $size);
         };
     }
+
     return transduce(partition($size), to_array(), $sequence);
 }
 
 /**
  * @param callable $callback
+ * @param null|mixed $sequence
  *
  * @return \Closure
  */
@@ -346,11 +384,13 @@ function partition_by(callable $callback, $sequence = null)
             return new Reducer\PartitionBy($reducer, $callback);
         };
     }
+
     return transduce(partition_by($callback), to_array(), $sequence);
 }
 
 /**
  * @param callable $callback
+ * @param null|mixed $sequence
  *
  * @return \Closure
  */
@@ -361,14 +401,15 @@ function group_by(callable $callback, $sequence = null)
             return new Reducer\GroupBy($reducer, $callback);
         };
     }
+
     return transduce(group_by($callback), to_single(), $sequence);
 }
 
 /**
  * @param callable $callback
- * @param iterable|null $sequence
+ * @param null|iterable $sequence
  *
- * @return array|\Closure|mixed|null
+ * @return null|array|\Closure|mixed
  */
 function sort(callable $callback, $sequence = null)
 {
@@ -379,16 +420,18 @@ function sort(callable $callback, $sequence = null)
     }
     if (is_array($sequence)) {
         \usort($sequence, $callback);
+
         return $sequence;
     }
+
     return transduce(sort($callback), to_array(), $sequence);
 }
 
 /**
  * @param callable $callback
- * @param iterable|null $sequence
+ * @param null|iterable $sequence
  *
- * @return array|\Closure|mixed|null
+ * @return null|array|\Closure|mixed
  */
 function sort_by(callable $callback, $sequence = null)
 {
@@ -399,8 +442,10 @@ function sort_by(callable $callback, $sequence = null)
     }
     if (is_array($sequence)) {
         \usort($sequence, comparator($callback));
+
         return $sequence;
     }
+
     return transduce(sort_by($callback), to_array(), $sequence);
 }
 
@@ -415,6 +460,7 @@ function to_single()
 }
 
 /**
+ * @param mixed $glue
  * @return Reducer\Termination\ToString
  */
 function to_string($glue = '')

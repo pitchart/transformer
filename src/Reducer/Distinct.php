@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the pitchart/transformer library.
+ * (c) Julien VITTE <vitte.julien@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.md.
+ */
+
 namespace Pitchart\Transformer\Reducer;
 
 use Pitchart\Transformer\Reducer;
@@ -30,6 +37,7 @@ class Distinct implements Reducer
     {
         if (!in_array($current, $this->distincts, true)) {
             $this->distincts[] = $current;
+
             return $this->next->step($result, $current);
         }
 
@@ -40,5 +48,4 @@ class Distinct implements Reducer
     {
         return $this->next->complete($result);
     }
-
 }

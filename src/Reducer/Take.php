@@ -1,10 +1,16 @@
 <?php
 
+/*
+ * This file is part of the pitchart/transformer library.
+ * (c) Julien VITTE <vitte.julien@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.md.
+ */
+
 namespace Pitchart\Transformer\Reducer;
 
 use Pitchart\Transformer\Reduced;
 use Pitchart\Transformer\Reducer;
-
 
 class Take implements Reducer
 {
@@ -32,6 +38,7 @@ class Take implements Reducer
     public function init()
     {
         $this->remaining = $this->number;
+
         return $this->next->init();
     }
 
@@ -42,6 +49,7 @@ class Take implements Reducer
         if ($this->remaining > 0) {
             return $return;
         }
+
         return $return instanceof Reduced ? $return : new Reduced($return);
     }
 

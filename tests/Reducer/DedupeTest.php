@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of the pitchart/transformer library.
+ * (c) Julien VITTE <vitte.julien@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.md.
+ */
+
 namespace Pitchart\Transformer\Tests\Reducer;
 
+use PHPUnit\Framework\TestCase;
 use Pitchart\Transformer\Reducer;
 use Pitchart\Transformer\Reducer\Dedupe;
 use Pitchart\Transformer\Transducer as t;
-use PHPUnit\Framework\TestCase;
 use Pitchart\Transformer\Transformer;
 
-class DedupeTest extends TestCase
+/**
+ * @internal
+ */
+final class DedupeTest extends TestCase
 {
     public function test_is_a_reducer()
     {
@@ -44,5 +54,4 @@ class DedupeTest extends TestCase
         $deduped = t\dedupe(new \ArrayIterator([1, 2, 3, 2, 2, 4, 6, 5, 1, 0, 0, 1]));
         self::assertEquals([1, 2, 3, 2, 4, 6, 5, 1, 0, 1], $deduped);
     }
-
 }

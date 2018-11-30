@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the pitchart/transformer library.
+ * (c) Julien VITTE <vitte.julien@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.md.
+ */
+
 namespace Pitchart\Transformer\Reducer\Termination;
 
 use Pitchart\Transformer\Reduced;
@@ -9,7 +16,6 @@ class SingleResult implements Termination
 {
     public function init()
     {
-        return;
     }
 
     public function step($result, $current)
@@ -22,6 +28,7 @@ class SingleResult implements Termination
         if ($result instanceof Reduced) {
             return $result->value();
         }
+
         return $result;
     }
 }
