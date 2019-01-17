@@ -12,9 +12,7 @@ namespace Pitchart\Transformer\Tests;
 use PHPUnit\Framework\TestCase;
 use Pitchart\Transformer\Reducer;
 use Pitchart\Transformer\Reducer\Distinct;
-use Pitchart\Transformer\Reducer\Map;
 use Pitchart\Transformer\Tests\Fixtures as f;
-use function Pitchart\Transformer\Transducer\to_array;
 use Pitchart\Transformer\Transformer;
 use function Pitchart\Transformer\transform;
 
