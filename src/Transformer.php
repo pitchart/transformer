@@ -272,6 +272,16 @@ class Transformer
      *
      * @return Transformer
      */
+    public function reduce(callable $callback)
+    {
+        return $this->appendComposition($callback);
+    }
+
+    /**
+     * @param callable $callback
+     *
+     * @return Transformer
+     */
     public function groupBy(callable $callback)
     {
         return $this->appendComposition(t\group_by($callback));
