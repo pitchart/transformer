@@ -10,7 +10,11 @@
 namespace Pitchart\Transformer\Tests;
 
 use PHPUnit\Framework\TestCase;
+use Pitchart\Transformer\Reducer;
+use Pitchart\Transformer\Reducer\Distinct;
+use Pitchart\Transformer\Reducer\Map;
 use Pitchart\Transformer\Tests\Fixtures as f;
+use function Pitchart\Transformer\Transducer\to_array;
 use Pitchart\Transformer\Transformer;
 use function Pitchart\Transformer\transform;
 
@@ -240,6 +244,15 @@ final class TransformerTest extends TestCase
             ->single();
 
         self::assertEquals(4, $first);
+    }
+
+    public function test_can_reduce()
+    {
+        $values = (new Transformer([1,2,2,3,4,5]))->reduce(function(Reducer $reducer){
+            return new Distinct($reducer);
+        })->toArray();
+
+        self::assertEquals([1,2,3,4,5], $values);
     }
 
     public function iterableProvider()
