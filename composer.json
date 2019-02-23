@@ -1,7 +1,7 @@
 {
     "name": "pitchart/transformer",
     "description": "A transducers implementation in PHP, with OOP powers",
-    "keywords": ["transducer", "functional programming", "iterable", "collection"],
+    "keywords": ["transducer", "functional programming", "iterable", "collection", "composition"],
     "type": "library",
     "license": "MIT",
     "authors": [
