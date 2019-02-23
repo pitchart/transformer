@@ -22,8 +22,20 @@ composer require pitchart/transformer
 
 ## Usage
 
-A transformation consists in a pipeline of transformation functions, called Reducers, ended by a 
+A transformation consists in a pipeline of transformation functions, called Reducers, ended by a reducing function, aka Termination.
 
+```php
+use function Pitchart\transform;
+
+transform([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0])
+    ->filter(function (int $integer) { return $int % 2 === 0;})
+    ->map(function (int $integer) { return $int + 1; })
+    ->dedupe()
+    ->distinct()
+    ->take(5)
+    ->sum()
+;
+```
 
 ## API documentation
 
