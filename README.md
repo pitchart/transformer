@@ -28,13 +28,14 @@ A transformation consists in a pipeline of transformation functions, called Redu
 use function Pitchart\transform;
 
 transform([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0])
-    ->filter(function (int $integer) { return $int % 2 === 0;})
-    ->map(function (int $integer) { return $int + 1; })
-    ->dedupe()
-    ->distinct()
-    ->take(5)
-    ->sum()
+    ->filter(function (int $integer) { return $integer % 2 === 0;})    // [0, 2, 4, 6, 8, 8, 6, 4, 2, 0]
+    ->map(function (int $integer) { return $integer + 1; })    // [1, 3, 5, 7, 9, 9, 7, 5, 3, 1]
+    ->dedupe()    // [1, 3, 5, 7, 9, 9, 7, 5, 3, 1]
+    ->distinct()    // [1, 3, 5, 7, 9]
+    ->take(3)     // [1, 3, 5]
+    ->sum()    // 9
 ;
+
 ```
 
 ## API documentation
