@@ -382,6 +382,18 @@ class Transformer
     }
 
     /**
+     * Processes transducing with a Termination
+     *
+     * @param Termination $termination
+     *
+     * @return mixed
+     */
+    public function into(Termination $termination)
+    {
+        return $this->terminate($termination);
+    }
+
+    /**
      * @param callable    $transducer
      * @param Termination $reducer
      * @param array       $iterable
