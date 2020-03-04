@@ -460,7 +460,18 @@ function to_single()
 }
 
 /**
+ * @param callable $callback
+ *
+ * @return Reducer\Termination\Has
+ */
+function has(callable $callback)
+{
+    return new Reducer\Termination\Has($callback);
+}
+
+/**
  * @param mixed $glue
+ *
  * @return Reducer\Termination\ToString
  */
 function to_string($glue = '')

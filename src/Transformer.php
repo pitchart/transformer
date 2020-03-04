@@ -342,6 +342,16 @@ class Transformer
     }
 
     /**
+     * @param callable $callback
+     *
+     * @return mixed
+     */
+    public function has(callable $callback)
+    {
+        return $this->terminate(t\has($callback));
+    }
+
+    /**
      * @return mixed
      */
     public function sum()
