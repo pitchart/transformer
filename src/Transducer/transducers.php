@@ -328,15 +328,15 @@ function replace(array $map, $sequence = null)
  * @param null|mixed $sequence
  * @return \Closure
  */
-function distinct($sequence = null)
+function distinct($sequence = null, ?callable $callback = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) {
-            return new Reducer\Distinct($reducer);
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\Distinct($reducer, $callback);
         };
     }
 
-    return transduce(distinct(), to_array(), $sequence);
+    return transduce(distinct(null, $callback), to_array(), $sequence);
 }
 
 /**

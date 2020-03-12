@@ -19,13 +19,19 @@ class Distinct implements Reducer
     private $next;
 
     /**
+     * @var callable|null
+     */
+    private $callback;
+
+    /**
      * @var array
      */
     private $distincts = [];
 
-    public function __construct(Reducer $next)
+    public function __construct(Reducer $next, ?callable $callback = null)
     {
         $this->next = $next;
+        $this->callback = $callback;
     }
 
     public function init()
@@ -35,8 +41,9 @@ class Distinct implements Reducer
 
     public function step($result, $current)
     {
-        if (!in_array($current, $this->distincts, true)) {
-            $this->distincts[] = $current;
+        $value = $this->callback === null ? $current : ($this->callback)($current);
+        if (!in_array($value, $this->distincts, true)) {
+            $this->distincts[] = $value;
 
             return $this->next->step($result, $current);
         }

@@ -234,9 +234,9 @@ class Transformer
     /**
      * @return static
      */
-    public function distinct()
+    public function distinct(?callable $callback = null)
     {
-        return $this->appendComposition(t\distinct());
+        return $this->appendComposition(t\distinct(null, $callback));
     }
 
     /**

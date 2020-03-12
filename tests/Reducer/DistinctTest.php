@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Pitchart\Transformer\Reducer;
 use Pitchart\Transformer\Reducer\Distinct;
 use Pitchart\Transformer\Transducer as t;
+use function Pitchart\Transformer\transform;
 use Pitchart\Transformer\Transformer;
 
 /**
@@ -30,6 +31,17 @@ final class DistinctTest extends TestCase
     {
         $distincts = t\transduce(t\distinct(), t\to_array(), [1, 2, 3, 2, 4, 6, 5, 1, 0]);
         self::assertEquals([1, 2, 3, 4, 6, 5, 0], $distincts);
+    }
+
+    public function test_removes_duplicated_values_using_a_callable()
+    {
+        $distincts = t\transduce(t\distinct(null, function (int $item) { return $item > 3;}), t\to_array(), [1, 2, 3, 2, 4, 6, 5, 1, 0]);
+        self::assertEquals([1, 4], $distincts);
+
+        $distincts = transform([1, 2, 3, 2, 4, 6, 5, 1, 0])
+            ->distinct(function (int $item) { return $item > 3;})
+            ->toArray();
+        self::assertEquals([1, 4], $distincts);
     }
 
     public function test_is_immutable()
@@ -59,4 +71,5 @@ final class DistinctTest extends TestCase
         $distincts = t\distinct(new \ArrayIterator([1, 2, 3, 2, 4, 6, 5, 1, 0]));
         self::assertEquals([1, 2, 3, 4, 6, 5, 0], $distincts);
     }
+
 }
