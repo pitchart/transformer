@@ -16,7 +16,7 @@ use function Pitchart\Transformer\identity;
  *
  * @package Pitchart\Transformer
  *
- * @author Julien VITTE <vitte.julien@gmail.fr>
+ * @author Julien VITTE <vitte.julien@gmail.com>
  */
 class Composition
 {
