@@ -19,6 +19,11 @@ class Dedupe implements Reducer
     private $next;
 
     /**
+     * @var callable|null
+     */
+    private $callback;
+
+    /**
      * @var null|mixed
      */
     private $last;
@@ -28,9 +33,10 @@ class Dedupe implements Reducer
      */
     private $started = false;
 
-    public function __construct(Reducer $next)
+    public function __construct(Reducer $next, ?callable $callback = null)
     {
         $this->next = $next;
+        $this->callback = $callback;
     }
 
     public function init()
@@ -40,13 +46,14 @@ class Dedupe implements Reducer
 
     public function step($result, $current)
     {
-        if (!$this->started || $current !== $this->last) {
+        $compare = $this->callback === null ? $current : ($this->callback)($current);
+        if (!$this->started || $compare !== $this->last) {
             $return = $this->next->step($result, $current);
         } else {
             $return = $result;
         }
         $this->started = true;
-        $this->last = $current;
+        $this->last = $compare;
 
         return $return;
     }
@@ -54,7 +61,7 @@ class Dedupe implements Reducer
     public function complete($result)
     {
         $this->last = null;
-        $this->started  = false;
+        $this->started = false;
 
         return $this->next->complete($result);
     }

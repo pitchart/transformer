@@ -242,9 +242,9 @@ class Transformer
     /**
      * @return static
      */
-    public function dedupe()
+    public function dedupe(?callable $callback = null)
     {
-        return $this->appendComposition(t\dedupe());
+        return $this->appendComposition(t\dedupe(null, $callback));
     }
 
     /**

@@ -343,15 +343,15 @@ function distinct($sequence = null, ?callable $callback = null)
  * @param null|mixed $sequence
  * @return \Closure
  */
-function dedupe($sequence = null)
+function dedupe($sequence = null, ?callable $callback = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) {
-            return new Reducer\Dedupe($reducer);
+        return function (Reducer $reducer) use ($callback) {
+            return new Reducer\Dedupe($reducer, $callback);
         };
     }
 
-    return transduce(dedupe(), to_array(), $sequence);
+    return transduce(dedupe(null, $callback), to_array(), $sequence);
 }
 
 /**

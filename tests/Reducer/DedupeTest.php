@@ -33,6 +33,14 @@ final class DedupeTest extends TestCase
         self::assertEquals([1, 2, 3, 2, 4, 6, 5, 1, 0, 1], $deduped);
     }
 
+    public function test_removes_consecutive_equals_items_using_a_callable()
+    {
+        $deduped = (new Transformer([1, 2, 3, 2, 2, 4, 6, 5, 1, 0, 0, 1]))
+            ->dedupe(function (int $item) { return $item % 2; })->toArray();
+
+        self::assertEquals([1, 2, 3, 2, 5, 0, 1], $deduped);
+    }
+
     public function test_is_immutable()
     {
         $transformer = (new Transformer([1, 2, 3, 2, 2, 4, 6, 5, 1, 0, 0, 1]));
