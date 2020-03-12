@@ -84,7 +84,7 @@ if (!function_exists(__NAMESPACE__.'\transform')) {
      */
     function comparator(callable $callback)
     {
-        return function ($first, $second) use ($callback) {
+        return static function ($first, $second) use ($callback) {
             $first = ($callback)($first);
             $second = ($callback)($second);
             if ($first == $second) {

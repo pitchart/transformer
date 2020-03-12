@@ -32,19 +32,19 @@ class Operation implements Termination
     {
         if (self::$operators === null) {
             self::$operators = [
-                '+' => function ($result, $current) {
+                '+' => static function ($result, $current) {
                     return $result+$current;
                 },
-                '-' => function ($result, $current) {
+                '-' => static function ($result, $current) {
                     return $result-$current;
                 },
-                '*' => function ($result, $current) {
+                '*' => static function ($result, $current) {
                     return $result*$current;
                 },
-                '/' => function ($result, $current) {
+                '/' => static function ($result, $current) {
                     return $result/$current;
                 },
-                '.' => function ($result, $current) {
+                '.' => static function ($result, $current) {
                     return $result.$current;
                 },
             ];

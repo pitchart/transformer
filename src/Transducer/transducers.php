@@ -58,7 +58,7 @@ function transduce(callable $transducer, Termination $reducer, $iterable, $initi
 function map(callable $callback, $sequence = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) use ($callback) {
+        return static function (Reducer $reducer) use ($callback) {
             return new Reducer\Map($reducer, $callback);
         };
     }
@@ -78,7 +78,7 @@ function map(callable $callback, $sequence = null)
 function filter(callable $callback, $sequence = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) use ($callback) {
+        return static function (Reducer $reducer) use ($callback) {
             return new Reducer\Filter($reducer, $callback);
         };
     }
@@ -99,12 +99,12 @@ function filter(callable $callback, $sequence = null)
 function keep(callable $callback, $sequence = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) use ($callback) {
+        return static function (Reducer $reducer) use ($callback) {
             return new Reducer\Keep($reducer, $callback);
         };
     }
     if (is_array($sequence)) {
-        return \array_values(\array_filter($sequence, function ($item) use ($callback) {
+        return \array_values(\array_filter($sequence, static function ($item) use ($callback) {
             return $callback($item) !== null;
         }));
     }
@@ -121,14 +121,14 @@ function keep(callable $callback, $sequence = null)
 function remove(callable $callback, $sequence = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) use ($callback) {
-            return new Reducer\Filter($reducer, function ($item) use ($callback) {
+        return static function (Reducer $reducer) use ($callback) {
+            return new Reducer\Filter($reducer, static function ($item) use ($callback) {
                 return !($callback($item));
             });
         };
     }
     if (is_array($sequence)) {
-        return \array_values(\array_filter($sequence, function ($item) use ($callback) {
+        return \array_values(\array_filter($sequence, static function ($item) use ($callback) {
             return !$callback($item);
         }));
     }
@@ -145,7 +145,7 @@ function remove(callable $callback, $sequence = null)
 function first(callable $callback, $sequence = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) use ($callback) {
+        return static function (Reducer $reducer) use ($callback) {
             return new Reducer\First($reducer, $callback);
         };
     }
@@ -166,7 +166,7 @@ function first(callable $callback, $sequence = null)
 function cat($sequence = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) {
+        return static function (Reducer $reducer) {
             return new Reducer\Cat($reducer);
         };
     }
@@ -196,7 +196,7 @@ function mapcat(callable $callback, $sequence = null)
 function flatten($sequence = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) {
+        return static function (Reducer $reducer) {
             return new Reducer\Flatten($reducer);
         };
     }
@@ -213,7 +213,7 @@ function flatten($sequence = null)
 function take(int $number, $sequence = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) use ($number) {
+        return static function (Reducer $reducer) use ($number) {
             return new Reducer\Take($reducer, $number);
         };
     }
@@ -230,7 +230,7 @@ function take(int $number, $sequence = null)
 function take_while(callable $callback, $sequence = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) use ($callback) {
+        return static function (Reducer $reducer) use ($callback) {
             return new Reducer\TakeWhile($reducer, $callback);
         };
     }
@@ -247,7 +247,7 @@ function take_while(callable $callback, $sequence = null)
 function take_nth(int $frequency, $sequence = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) use ($frequency) {
+        return static function (Reducer $reducer) use ($frequency) {
             return new Reducer\TakeNth($reducer, $frequency);
         };
     }
@@ -264,7 +264,7 @@ function take_nth(int $frequency, $sequence = null)
 function drop(int $number, $sequence = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) use ($number) {
+        return static function (Reducer $reducer) use ($number) {
             return new Reducer\Drop($reducer, $number);
         };
     }
@@ -281,7 +281,7 @@ function drop(int $number, $sequence = null)
 function drop_while(callable $callback, $sequence = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) use ($callback) {
+        return static function (Reducer $reducer) use ($callback) {
             return new Reducer\DropWhile($reducer, $callback);
         };
     }
@@ -299,7 +299,7 @@ function drop_while(callable $callback, $sequence = null)
 function paginate($page = 1, $numberOfItems = 10, $sequence = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) use ($page, $numberOfItems) {
+        return static function (Reducer $reducer) use ($page, $numberOfItems) {
             return new Reducer\Paginate($reducer, $page, $numberOfItems);
         };
     }
@@ -316,7 +316,7 @@ function paginate($page = 1, $numberOfItems = 10, $sequence = null)
 function replace(array $map, $sequence = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) use ($map) {
+        return static function (Reducer $reducer) use ($map) {
             return new Reducer\Replace($reducer, $map);
         };
     }
@@ -331,7 +331,7 @@ function replace(array $map, $sequence = null)
 function distinct($sequence = null, ?callable $callback = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) use ($callback) {
+        return static function (Reducer $reducer) use ($callback) {
             return new Reducer\Distinct($reducer, $callback);
         };
     }
@@ -346,7 +346,7 @@ function distinct($sequence = null, ?callable $callback = null)
 function dedupe($sequence = null, ?callable $callback = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) use ($callback) {
+        return static function (Reducer $reducer) use ($callback) {
             return new Reducer\Dedupe($reducer, $callback);
         };
     }
@@ -363,7 +363,7 @@ function dedupe($sequence = null, ?callable $callback = null)
 function partition(int $size, $sequence = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) use ($size) {
+        return static function (Reducer $reducer) use ($size) {
             return new Reducer\Partition($reducer, $size);
         };
     }
@@ -380,7 +380,7 @@ function partition(int $size, $sequence = null)
 function partition_by(callable $callback, $sequence = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) use ($callback) {
+        return static function (Reducer $reducer) use ($callback) {
             return new Reducer\PartitionBy($reducer, $callback);
         };
     }
@@ -397,7 +397,7 @@ function partition_by(callable $callback, $sequence = null)
 function group_by(callable $callback, $sequence = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) use ($callback) {
+        return static function (Reducer $reducer) use ($callback) {
             return new Reducer\GroupBy($reducer, $callback);
         };
     }
@@ -407,14 +407,14 @@ function group_by(callable $callback, $sequence = null)
 
 /**
  * @param callable $callback
- * @param null|iterable $sequence
+ * @param null $sequence
  *
- * @return null|array|\Closure|mixed
+ * @return array|\Closure|mixed
  */
 function sort(callable $callback, $sequence = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) use ($callback) {
+        return static function (Reducer $reducer) use ($callback) {
             return new Reducer\Sort($reducer, $callback);
         };
     }
@@ -436,7 +436,7 @@ function sort(callable $callback, $sequence = null)
 function sort_by(callable $callback, $sequence = null)
 {
     if ($sequence === null) {
-        return function (Reducer $reducer) use ($callback) {
+        return static function (Reducer $reducer) use ($callback) {
             return new Reducer\SortBy($reducer, $callback);
         };
     }

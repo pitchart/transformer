@@ -33,8 +33,8 @@ class Curry
     {
         $function = $this->function;
 
-        return function (...$args) use ($function, $arguments) {
-            return (function ($arguments) use ($function) {
+        return static function (...$args) use ($function, $arguments) {
+            return (static function ($arguments) use ($function) {
                 if (count($arguments) < (new \ReflectionFunction($function))->getNumberOfRequiredParameters()) {
                     return new self($function, ...$arguments);
                 }

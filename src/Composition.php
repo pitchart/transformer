@@ -36,7 +36,7 @@ class Composition
     public function __invoke()
     {
         if (empty($this->functions)) {
-            return (function ($value) {
+            return (static function ($value) {
                 return $value;
             })(func_get_arg(0));
         }
@@ -46,7 +46,7 @@ class Composition
 
         return array_reduce(
             $functionList,
-            function ($carry, $item) {
+            static function ($carry, $item) {
                 return $item($carry);
             },
             call_user_func_array($first, func_get_args())
