@@ -440,13 +440,29 @@ function sort_by(callable $callback, $sequence = null)
             return new Reducer\SortBy($reducer, $callback);
         };
     }
-    if (is_array($sequence)) {
+    if (\is_array($sequence)) {
         \usort($sequence, comparator($callback));
 
         return $sequence;
     }
 
     return transduce(sort_by($callback), to_array(), $sequence);
+}
+
+function merge(iterable $collection, ?iterable $sequence = null)
+{
+    if ($sequence === null) {
+        return static function (Reducer $reducer) use ($collection) {
+            return new Reducer\Merge($reducer, $collection);
+        };
+    }
+    if (!\is_array($sequence)) {
+        $sequence = \iterator_to_array($sequence);
+    }
+    if (!\is_array($collection)) {
+        $collection = \iterator_to_array($collection);
+    }
+    return \array_merge($collection, $sequence);
 }
 
 // Terminations
