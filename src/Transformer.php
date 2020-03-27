@@ -308,6 +308,17 @@ class Transformer
     }
 
     /**
+     * @param iterable $collection
+     * @param callable|null $callback
+     *
+     * @return Transformer
+     */
+    public function diff(iterable $collection, ?callable $callback = null)
+    {
+        return $this->appendComposition(t\diff($collection, $callback));
+    }
+
+    /**
      * @param string $glue
      *
      * @return string

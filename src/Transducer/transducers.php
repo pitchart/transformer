@@ -449,6 +449,32 @@ function sort_by(callable $callback, $sequence = null)
     return transduce(sort_by($callback), to_array(), $sequence);
 }
 
+/**
+ * @param iterable $collection
+ * @param callable|null $callback
+ * @param iterable|null $sequence
+ *
+ * @return array|\Closure
+ */
+function diff(iterable $collection, ?callable $callback, $sequence = null)
+{
+    if ($sequence === null) {
+        return static function (Reducer $reducer) use ($collection, $callback) {
+            return new Reducer\Diff($reducer, $collection, $callback);
+        };
+    }
+    if ($callback === null) {
+        $callback = comparator('Pitchart\Transformer\identity');
+    }
+    if (!\is_array($collection)) {
+        $collection = \iterator_to_array($collection);
+    }
+    if (!\is_array($sequence)) {
+        $sequence = \iterator_to_array($sequence);
+    }
+    return \array_udiff($sequence, $collection, $callback);
+}
+
 // Terminations
 
 /**
