@@ -20,7 +20,7 @@ class Transformer
     private $composition;
 
     /**
-     * @var Termination
+     * @var Termination|null
      */
     private $termination;
 
@@ -307,6 +307,11 @@ class Transformer
         return $this->appendComposition(t\sort_by($callback));
     }
 
+    public function merge(iterable $collection)
+    {
+        return $this->appendComposition(t\merge($collection));
+    }
+
     /**
      * @param string $glue
      *
@@ -406,8 +411,8 @@ class Transformer
     /**
      * @param callable    $transducer
      * @param Termination $reducer
-     * @param array       $iterable
-     * @param mixed       $initial
+     * @param iterable       $iterable
+     * @param mixed|null       $initial
      *
      * @return mixed
      */

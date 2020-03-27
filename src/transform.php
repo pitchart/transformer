@@ -17,7 +17,7 @@ if (!function_exists(__NAMESPACE__.'\transform')) {
      * @param array|\Traversable $iterable
      * @param Composition $composition
      * @param Termination $termination
-     * @param mixed $initial
+     * @param mixed|null $initial
      *
      * @return Transformer
      */
@@ -31,8 +31,12 @@ if (!function_exists(__NAMESPACE__.'\transform')) {
      *
      * @see transform()
      *
-     * @param mixed $iterable
-     * @param null|mixed $initial
+     * @param $iterable
+     * @param Composition|null $composition
+     * @param Termination|null $termination
+     * @param null $initial
+     *
+     * @return Transformer
      */
     function from($iterable, Composition $composition = null, Termination $termination = null, $initial = null)
     {
@@ -42,7 +46,7 @@ if (!function_exists(__NAMESPACE__.'\transform')) {
     /**
      * Creates a composition of functions
      *
-     * @param \callable[] ...$callbacks
+     * @param \callable ...$callbacks
      *
      * @return Composition
      */
