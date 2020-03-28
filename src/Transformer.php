@@ -330,6 +330,17 @@ class Transformer
 
     /**
      * @param iterable $collection
+     * @param callable $callback
+     *
+     * @return Transformer
+     */
+    public function diffBy(iterable $collection, callable $callback)
+    {
+        return $this->appendComposition(t\diffBy($collection, $callback));
+    }
+
+    /**
+     * @param iterable $collection
      * @param callable|null $callback
      *
      * @return Transformer
