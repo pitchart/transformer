@@ -340,6 +340,17 @@ class Transformer
     }
 
     /**
+     * @param iterable $collection
+     * @param callable $callback
+     *
+     * @return Transformer
+     */
+    public function intersectBy(iterable $collection, callable $callback)
+    {
+        return $this->appendComposition(t\intersectBy($collection, $callback));
+    }
+
+    /**
      * @param string $glue
      *
      * @return string
