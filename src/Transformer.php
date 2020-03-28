@@ -307,6 +307,11 @@ class Transformer
         return $this->appendComposition(t\sort_by($callback));
     }
 
+    /**
+     * @param iterable $collection
+     *
+     * @return Transformer
+     */
     public function merge(iterable $collection)
     {
         return $this->appendComposition(t\merge($collection));
@@ -321,6 +326,17 @@ class Transformer
     public function diff(iterable $collection, ?callable $callback = null)
     {
         return $this->appendComposition(t\diff($collection, $callback));
+    }
+
+    /**
+     * @param iterable $collection
+     * @param callable|null $callback
+     *
+     * @return Transformer
+     */
+    public function intersect(iterable $collection, ?callable $callback = null)
+    {
+        return $this->appendComposition(t\intersect($collection, $callback));
     }
 
     /**

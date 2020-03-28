@@ -496,7 +496,34 @@ function diff(iterable $collection, ?callable $callback, $sequence = null)
     if (!\is_array($collection)) {
         $collection = \iterator_to_array($collection);
     }
-    return \array_udiff($sequence, $collection, $callback);
+    return \array_values(\array_udiff($sequence, $collection, $callback));
+}
+
+/**
+ * @param iterable $collection
+ * @param callable|null $callback
+ * @param iterable|null $sequence
+ *
+ * @return array|\Closure
+ */
+function intersect(iterable $collection, ?callable $callback, $sequence = null)
+{
+    if ($sequence === null) {
+        return static function (Reducer $reducer) use ($collection, $callback) {
+            return new Reducer\Intersect($reducer, $collection, $callback);
+        };
+    }
+    if ($callback === null) {
+        $callback = comparator('Pitchart\Transformer\identity');
+    }
+
+    if (!\is_array($sequence)) {
+        $sequence = \iterator_to_array($sequence);
+    }
+    if (!\is_array($collection)) {
+        $collection = \iterator_to_array($collection);
+    }
+    return \array_values(\array_uintersect($sequence, $collection, $callback));
 }
 
 // Terminations
