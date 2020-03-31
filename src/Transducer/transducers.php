@@ -629,3 +629,8 @@ function to_operation(string $operator)
 {
     return new Reducer\Termination\Operation($operator);
 }
+
+function length()
+{
+    return new Reducer\Termination\Length();
+}

@@ -446,6 +446,14 @@ class Transformer
     }
 
     /**
+     * @return string
+     */
+    public function length()
+    {
+        return $this->terminate(t\length());
+    }
+
+    /**
      * Processes transducing with a Termination
      *
      * @param Termination $termination
