@@ -396,6 +396,18 @@ class Transformer
     }
 
     /**
+     * @param string $delimiter
+     * @param string $enclosure
+     * @param string $escapeChar
+     *
+     * @return mixed
+     */
+    public function toCsv(string $delimiter = ',', string $enclosure = '"', string $escapeChar = "\\")
+    {
+        return $this->terminate(t\to_csv());
+    }
+
+    /**
      * @return mixed
      */
     public function single()

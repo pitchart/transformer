@@ -629,6 +629,14 @@ function to_resource(?callable $callback = null)
 }
 
 /**
+ * @return Reducer\Termination\ToCsv
+ */
+function to_csv(string $delimiter = ',', string $enclosure = '"', string $escapeChar = "\\")
+{
+    return new Reducer\Termination\ToCsv($delimiter, $enclosure, $escapeChar);
+}
+
+/**
  * @param string $operator
  *
  * @return Reducer\Termination\Operation
