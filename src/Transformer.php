@@ -388,6 +388,14 @@ class Transformer
     }
 
     /**
+     * @return resource
+     */
+    public function toResource(?callable $callback = null)
+    {
+        return $this->terminate(t\to_resource($callback));
+    }
+
+    /**
      * @return mixed
      */
     public function single()

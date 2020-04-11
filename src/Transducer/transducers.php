@@ -621,6 +621,14 @@ function to_iterator()
 }
 
 /**
+ * @return Reducer\Termination\ToResource
+ */
+function to_resource(?callable $callback = null)
+{
+    return new Reducer\Termination\ToResource($callback);
+}
+
+/**
  * @param string $operator
  *
  * @return Reducer\Termination\Operation
