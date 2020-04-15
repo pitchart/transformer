@@ -621,6 +621,22 @@ function to_iterator()
 }
 
 /**
+ * @return Reducer\Termination\ToResource
+ */
+function to_resource(?callable $callback = null)
+{
+    return new Reducer\Termination\ToResource($callback);
+}
+
+/**
+ * @return Reducer\Termination\ToCsv
+ */
+function to_csv(string $delimiter = ',', string $enclosure = '"', string $escapeChar = "\\")
+{
+    return new Reducer\Termination\ToCsv($delimiter, $enclosure, $escapeChar);
+}
+
+/**
  * @param string $operator
  *
  * @return Reducer\Termination\Operation
