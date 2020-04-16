@@ -404,7 +404,7 @@ class Transformer
      */
     public function toCsv(string $delimiter = ',', string $enclosure = '"', string $escapeChar = "\\")
     {
-        return $this->terminate(t\to_csv());
+        return $this->terminate(t\to_csv($delimiter, $enclosure, $escapeChar));
     }
 
     /**
