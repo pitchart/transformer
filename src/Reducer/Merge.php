@@ -34,7 +34,7 @@ class Merge implements Reducer
         foreach (($this->collection)() as $item) {
             $result = $this->next->step($result, $item);
         }
-        return $result;
+        return $this->next->complete($result);
     }
 
 }

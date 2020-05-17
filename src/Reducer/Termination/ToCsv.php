@@ -5,7 +5,6 @@ namespace Pitchart\Transformer\Reducer\Termination;
 
 
 use Pitchart\Transformer\Termination;
-use function Pitchart\Transformer\Transducer\to_array;
 use function Pitchart\Transformer\transform;
 
 class ToCsv implements Termination
