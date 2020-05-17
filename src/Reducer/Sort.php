@@ -45,7 +45,8 @@ class Sort implements Reducer
                 $result = $item;
             }
         }
+        $this->store = [];
 
-        return $result;
+        return $this->next->complete($result);
     }
 }
